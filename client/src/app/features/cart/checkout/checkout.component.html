@@ -1,4 +1,4 @@
-<!-- Progress Stepper -->
+﻿<!-- Progress Stepper -->
 <div class="mb-10 flex justify-center" *ngIf="currentStep < 4">
   <div class="flex items-center gap-8 text-sm font-medium">
 
@@ -96,18 +96,21 @@
               <input formControlName="city" type="text"
                 class="w-full px-4 py-3 rounded-lg border bg-transparent text-[15px] placeholder-slate-blue/30 focus:ring-0 transition-colors"
                 [ngClass]="isFieldInvalid(addressForm, 'city') ? 'border-red-400 focus:border-red-400' : 'border-slate-blue/10 focus:border-sage'" />
+              <p *ngIf="isFieldInvalid(addressForm, 'city')" class="text-red-500 text-xs mt-1">Required</p>
             </div>
             <div>
               <label class="block text-sm font-medium text-slate-blue/70 mb-1.5">State</label>
               <input formControlName="state" type="text"
                 class="w-full px-4 py-3 rounded-lg border bg-transparent text-[15px] placeholder-slate-blue/30 focus:ring-0 transition-colors"
                 [ngClass]="isFieldInvalid(addressForm, 'state') ? 'border-red-400 focus:border-red-400' : 'border-slate-blue/10 focus:border-sage'" />
+              <p *ngIf="isFieldInvalid(addressForm, 'state')" class="text-red-500 text-xs mt-1">Required</p>
             </div>
             <div>
               <label class="block text-sm font-medium text-slate-blue/70 mb-1.5">ZIP Code</label>
               <input formControlName="zipCode" type="text"
                 class="w-full px-4 py-3 rounded-lg border bg-transparent text-[15px] placeholder-slate-blue/30 focus:ring-0 transition-colors"
                 [ngClass]="isFieldInvalid(addressForm, 'zipCode') ? 'border-red-400 focus:border-red-400' : 'border-slate-blue/10 focus:border-sage'" />
+              <p *ngIf="isFieldInvalid(addressForm, 'zipCode')" class="text-red-500 text-xs mt-1">Required</p>
             </div>
           </div>
         </div>

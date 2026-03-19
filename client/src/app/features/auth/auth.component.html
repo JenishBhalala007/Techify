@@ -34,8 +34,12 @@
                             <span class="text-sm font-semibold text-text-primary dark:text-slate-200">Email</span>
                             <div class="relative flex items-center">
                                 <span class="material-symbols-outlined absolute left-4 text-text-secondary dark:text-slate-400 text-[20px]">mail</span>
-                                <input formControlName="email" class="form-input w-full rounded-lg border border-border dark:border-border-dark bg-background-light dark:bg-background-dark/50 focus:border-primary focus:ring-1 focus:ring-primary text-text-primary dark:text-white h-14 pl-12 pr-4 text-base placeholder:text-text-secondary/60 transition-colors" placeholder="Enter your email address" required="" type="email"/>
+                                <input formControlName="email" class="form-input w-full rounded-lg border border-border dark:border-border-dark bg-background-light dark:bg-background-dark/50 focus:border-primary focus:ring-1 focus:ring-primary text-text-primary dark:text-white h-14 pl-12 pr-4 text-base placeholder:text-text-secondary/60 transition-colors" [ngClass]="{'border-red-500': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}" placeholder="Enter your email address" required="" type="email"/>
                             </div>
+                            <span class="text-xs text-red-500 mt-1" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                                <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</span>
+                                <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+                            </span>
                         </label>
                         <label class="flex flex-col gap-2">
                             <div class="flex justify-between items-baseline">
@@ -44,11 +48,14 @@
                             </div>
                             <div class="relative flex items-center">
                                 <span class="material-symbols-outlined absolute left-4 text-text-secondary dark:text-slate-400 text-[20px]">lock</span>
-                                <input formControlName="password" class="form-input w-full rounded-lg border border-border dark:border-border-dark bg-background-light dark:bg-background-dark/50 focus:border-primary focus:ring-1 focus:ring-primary text-text-primary dark:text-white h-14 pl-12 pr-12 text-base placeholder:text-text-secondary/60 transition-colors" placeholder="Enter your password" required="" [type]="showPassword ? 'text' : 'password'"/>
+                                <input formControlName="password" class="form-input w-full rounded-lg border border-border dark:border-border-dark bg-background-light dark:bg-background-dark/50 focus:border-primary focus:ring-1 focus:ring-primary text-text-primary dark:text-white h-14 pl-12 pr-12 text-base placeholder:text-text-secondary/60 transition-colors" [ngClass]="{'border-red-500': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}" placeholder="Enter your password" required="" [type]="showPassword ? 'text' : 'password'"/>
                                 <button class="absolute right-4 text-text-secondary dark:text-slate-400 hover:text-text-primary dark:hover:text-white transition-colors" type="button" (click)="showPassword = !showPassword">
                                     <span class="material-symbols-outlined text-[20px]">{{ showPassword ? 'visibility' : 'visibility_off' }}</span>
                                 </button>
                             </div>
+                            <span class="text-xs text-red-500 mt-1" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                                Password is required
+                            </span>
                         </label>
                     </div>
 
@@ -136,22 +143,33 @@
                     <!-- Form Fields -->
                     <label class="flex flex-col">
                         <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">Full Name</span>
-                        <input formControlName="name" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" placeholder="Jane Doe" type="text"/>
+                        <input formControlName="name" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" [ngClass]="{'border-red-500': registerForm.get('name')?.invalid && registerForm.get('name')?.touched}" placeholder="Jane Doe" type="text"/>
+                        <span class="text-xs text-red-500 mt-1" *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+                            Name is required
+                        </span>
                     </label>
 
                     <label class="flex flex-col">
                         <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">Email Address</span>
-                        <input formControlName="email" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" placeholder="jane@example.com" type="email"/>
+                        <input formControlName="email" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" [ngClass]="{'border-red-500': registerForm.get('email')?.invalid && registerForm.get('email')?.touched}" placeholder="jane@example.com" type="email"/>
+                        <span class="text-xs text-red-500 mt-1" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+                            <span *ngIf="registerForm.get('email')?.errors?.['required']">Email is required</span>
+                            <span *ngIf="registerForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+                        </span>
                     </label>
 
                     <label class="flex flex-col">
                         <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">Password</span>
                         <div class="relative flex items-center">
-                            <input formControlName="password" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 pr-12 text-base font-normal transition-shadow" placeholder="Create a strong password" [type]="showRegisterPassword ? 'text' : 'password'"/>
+                            <input formControlName="password" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 pr-12 text-base font-normal transition-shadow" [ngClass]="{'border-red-500': registerForm.get('password')?.invalid && registerForm.get('password')?.touched}" placeholder="Create a strong password" [type]="showRegisterPassword ? 'text' : 'password'"/>
                             <button class="absolute right-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors" type="button" (click)="showRegisterPassword = !showRegisterPassword">
                                 <span class="material-symbols-outlined text-[20px]">{{ showRegisterPassword ? 'visibility' : 'visibility_off' }}</span>
                             </button>
                         </div>
+                        <span class="text-xs text-red-500 mt-1" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                            <span *ngIf="registerForm.get('password')?.errors?.['required']">Password is required</span>
+                            <span *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</span>
+                        </span>
                     </label>
 
                     <label class="flex flex-col">
