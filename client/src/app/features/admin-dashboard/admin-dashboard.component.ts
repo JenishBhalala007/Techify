@@ -31,6 +31,9 @@ export class AdminDashboardComponent implements OnInit {
   addingProduct = false;
   editingProductId: string | null = null;
 
+  selectedOrder: AdminOrder | null = null;
+  showOrderDetail = false;
+
   sections = [
     { id: 'overview',  label: 'Overview',  icon: 'home' },
     { id: 'orders',    label: 'Orders',    icon: 'shopping_bag' },
@@ -343,6 +346,23 @@ export class AdminDashboardComponent implements OnInit {
         }
       });
     }
+  }
+
+  viewOrderDetails(order: AdminOrder): void {
+    this.selectedOrder = order;
+    this.showOrderDetail = true;
+  }
+
+  closeOrderDetails(): void {
+    this.showOrderDetail = false;
+    this.selectedOrder = null;
+  }
+
+  getOrderUserEmail(order: AdminOrder): string {
+    if (typeof order.userId === 'object' && order.userId !== null) {
+      return (order.userId as any).email || '';
+    }
+    return '';
   }
 
   logout(): void {

@@ -21,6 +21,7 @@ export interface AdminOrderItem {
   title: string;
   quantity: number;
   priceAtPurchase: number;
+  image?: string;
 }
 
 export interface AdminOrder {
