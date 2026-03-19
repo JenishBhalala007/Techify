@@ -1,0 +1,88 @@
+:host {
+  display: block;
+}
+
+.brands-shell {
+  padding: 1.25rem 0;
+}
+
+.marquee-track {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-row {
+  display: inline-flex;
+  gap: 0.75rem;
+  min-width: max-content;
+  animation: marqueeMove 24s linear infinite;
+  padding: 0 1rem;
+}
+
+.brand-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 150px;
+  border-radius: 9999px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgb(100 116 139);
+  background: rgb(248 250 252);
+  filter: grayscale(1);
+  transition: filter 200ms ease, color 200ms ease, transform 200ms ease;
+}
+
+.brand-chip:hover {
+  filter: grayscale(0);
+  color: rgb(30 41 59);
+  transform: translateY(-1px);
+}
+
+.edge-shadow {
+  position: absolute;
+  top: 0;
+  width: 56px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.edge-left {
+  left: 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
+}
+
+.edge-right {
+  right: 0;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
+}
+
+:host-context(.dark) .brand-chip {
+  color: rgb(148 163 184);
+  background: rgb(15 23 42);
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+:host-context(.dark) .brand-chip:hover {
+  color: rgb(226 232 240);
+}
+
+:host-context(.dark) .edge-left {
+  background: linear-gradient(to right, rgba(30, 41, 59, 0.95), rgba(30, 41, 59, 0));
+}
+
+:host-context(.dark) .edge-right {
+  background: linear-gradient(to left, rgba(30, 41, 59, 0.95), rgba(30, 41, 59, 0));
+}
+
+@keyframes marqueeMove {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}

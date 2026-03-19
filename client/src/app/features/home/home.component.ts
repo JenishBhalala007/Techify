@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService, Product } from '../../core/services/product.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import {
+  Brand,
+  HomeContentService,
+  Testimonial,
+  ValueProp
+} from '../../core/services/home-content.service';
 
 interface Category { name: string; icon: SafeHtml; count: number; }
 interface Feature { icon: SafeHtml; title: string; desc: string; }
@@ -12,10 +18,18 @@ interface Feature { icon: SafeHtml; title: string; desc: string; }
 })
 export class HomeComponent implements OnInit {
   featuredProducts: Product[] = [];
+  trendingProducts: Product[] = [];
+  valueProps: ValueProp[] = [];
+  testimonials: Testimonial[] = [];
+  brands: Brand[] = [];
   categories: Category[] = [];
   features: Feature[] = [];
 
-  constructor(private productService: ProductService, private sanitizer: DomSanitizer) {
+  constructor(
+    private productService: ProductService,
+    private sanitizer: DomSanitizer,
+    private homeContentService: HomeContentService
+  ) {
     const getSvg = (svgStr: string) => this.sanitizer.bypassSecurityTrustHtml(svgStr);
 
     this.categories = [
@@ -37,9 +51,21 @@ export class HomeComponent implements OnInit {
     this.productService.fetchAll().subscribe({
       next: (products) => {
         this.featuredProducts = products.slice(0, 8);
+        this.trendingProducts = products.slice(0, 10);
       },
       error: (err) => {
         console.error('Failed to load featured products', err);
+      }
+    });
+
+    this.homeContentService.fetchContent().subscribe({
+      next: (content) => {
+        this.valueProps = content.valueProps;
+        this.testimonials = content.testimonials;
+        this.brands = content.brands;
+      },
+      error: (err) => {
+        console.error('Failed to load home content', err);
       }
     });
   }

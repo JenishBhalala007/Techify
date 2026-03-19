@@ -1,0 +1,42 @@
+<section class="mb-20 max-w-[1200px] w-full mx-auto px-4 md:px-10" aria-labelledby="trending-products-heading">
+  <div class="flex items-center justify-between gap-4 mb-6">
+    <div>
+      <p class="text-primary text-xs sm:text-sm font-semibold uppercase tracking-widest">Trending Now</p>
+      <h2 id="trending-products-heading" class="text-text-primary dark:text-white text-2xl font-bold tracking-tight font-display">
+        Trending Products
+      </h2>
+    </div>
+    <div class="hidden sm:flex items-center gap-2">
+      <button type="button" class="h-10 w-10 rounded-full border border-primary/20 bg-white dark:bg-slate-800 text-text-primary dark:text-slate-100 hover:bg-primary/5 transition-colors" (click)="scroll('left')" aria-label="Scroll left">
+        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+      </button>
+      <button type="button" class="h-10 w-10 rounded-full border border-primary/20 bg-white dark:bg-slate-800 text-text-primary dark:text-slate-100 hover:bg-primary/5 transition-colors" (click)="scroll('right')" aria-label="Scroll right">
+        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+      </button>
+    </div>
+  </div>
+
+  <div
+    #slider
+    class="carousel-track flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2"
+    (touchstart)="onTouchStart($event)"
+    (touchmove)="onTouchMove($event)"
+    (touchend)="onTouchEnd()"
+  >
+    <a
+      *ngFor="let product of products; trackBy: trackByProductId"
+      [routerLink]="['/products', product.id]"
+      class="min-w-[260px] sm:min-w-[300px] lg:min-w-[320px] snap-start rounded-2xl border border-primary/10 bg-white dark:bg-slate-800 p-4 shadow-sm hover:shadow-lg transition-all duration-300"
+    >
+      <div class="aspect-[4/3] rounded-xl bg-slate-50 dark:bg-slate-900 border border-primary/5 overflow-hidden mb-4">
+        <img [src]="product.image || 'https://via.placeholder.com/400x300?text=Product'" [alt]="product.name" class="w-full h-full object-cover" />
+      </div>
+      <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">{{ product.category }}</p>
+      <h3 class="text-text-primary dark:text-white font-bold text-base line-clamp-2 mb-2">{{ product.name }}</h3>
+      <div class="flex items-baseline gap-2">
+        <span *ngIf="product.originalPrice" class="text-xs line-through text-slate-400">₹{{ product.originalPrice }}</span>
+        <span class="text-primary font-bold text-lg">₹{{ product.price }}</span>
+      </div>
+    </a>
+  </div>
+</section>

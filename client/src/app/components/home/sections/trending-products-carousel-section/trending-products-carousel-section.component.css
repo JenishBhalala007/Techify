@@ -1,0 +1,11 @@
+:host {
+  display: block;
+}
+
+.carousel-track {
+  scrollbar-width: none;
+}
+
+.carousel-track::-webkit-scrollbar {
+  display: none;
+}

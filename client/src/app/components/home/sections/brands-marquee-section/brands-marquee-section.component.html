@@ -1,0 +1,21 @@
+<section class="mb-20 max-w-[1200px] w-full mx-auto px-4 md:px-10" aria-labelledby="brands-heading">
+  <div class="mb-8">
+    <p class="text-primary text-xs sm:text-sm font-semibold uppercase tracking-widest">Trusted Ecosystem</p>
+    <h2 id="brands-heading" class="text-text-primary dark:text-white text-2xl font-bold tracking-tight font-display">
+      Brands & Partners
+    </h2>
+  </div>
+
+  <div class="brands-shell relative rounded-2xl border border-primary/10 bg-white dark:bg-slate-800 overflow-hidden">
+    <div class="edge-shadow edge-left" aria-hidden="true"></div>
+    <div class="edge-shadow edge-right" aria-hidden="true"></div>
+
+    <div class="marquee-track">
+      <div class="marquee-row">
+        <div *ngFor="let brand of loopingBrands; trackBy: trackByBrand" class="brand-chip">
+          <span>{{ brand.name }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
