@@ -34,8 +34,8 @@
       <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">{{ product.category }}</p>
       <h3 class="text-text-primary dark:text-white font-bold text-base line-clamp-2 mb-2">{{ product.name }}</h3>
       <div class="flex items-baseline gap-2">
-        <span *ngIf="product.originalPrice" class="text-xs line-through text-slate-400">₹{{ product.originalPrice }}</span>
-        <span class="text-primary font-bold text-lg">₹{{ product.price }}</span>
+        <span *ngIf="product.originalPrice" class="text-xs line-through text-slate-400">₹{{ product.originalPrice | number:'1.0-0' }}</span>
+        <span class="text-primary font-bold text-lg">₹{{ product.price | number:'1.0-0' }}</span>
       </div>
     </a>
   </div>
