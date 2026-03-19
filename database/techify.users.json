@@ -1,0 +1,65 @@
+[{
+  "_id": {
+    "$oid": "69a95f86a4dedbe0f139ceac"
+  },
+  "name": "Admin",
+  "email": "admin@gmail.com",
+  "password": "$2b$10$TFi..UV/CaHEqc9m3azgO.5TAB3JBl2Ky8UwhPnYrKmq0zPWj31dq",
+  "role": "admin",
+  "cart": [],
+  "createdAt": {
+    "$date": "2026-03-05T10:48:38.264Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-05T10:48:38.264Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69b1a97d7d6dbeb945a54fe0"
+  },
+  "name": "Jenish Bhalala",
+  "email": "jenish@gmail.com",
+  "password": "$2b$10$j/oMfcnZEamZWRunudggAe/oHRzK/SbUJ0w.ffRsJJ3/YXknXD/ka",
+  "role": "user",
+  "phone": "7485968574",
+  "address": {
+    "street": "410, Mahalaxmi Society ",
+    "city": "Surat",
+    "state": "Gujarat ",
+    "zipCode": "395010",
+    "country": "India"
+  },
+  "wishlist": [
+    {
+      "$oid": "69a965d66b760564859a7d4a"
+    }
+  ],
+  "cart": [],
+  "createdAt": {
+    "$date": "2026-03-11T17:42:21.901Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-16T16:23:08.920Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "69b22a5f7d44d765eebcbd43"
+  },
+  "name": "Test User",
+  "email": "testuser@example.com",
+  "password": "$2b$10$MuTNua80HXzH3rAUNY1.NOqiqafOKHfePFmX78VBm50nEIR12DAwa",
+  "role": "user",
+  "wishlist": [],
+  "cart": [],
+  "createdAt": {
+    "$date": "2026-03-12T02:52:15.772Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-12T02:52:15.772Z"
+  },
+  "__v": 0
+}]

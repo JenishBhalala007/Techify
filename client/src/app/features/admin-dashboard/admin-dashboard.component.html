@@ -1,0 +1,521 @@
+<app-toast></app-toast>
+<div class="flex h-screen overflow-hidden bg-background-light">
+
+  <!-- ══════════════════════════════════════
+       SIDEBAR
+  ══════════════════════════════════════ -->
+  <aside class="w-64 flex-shrink-0 bg-white border-r border-black/5 flex flex-col justify-between hidden md:flex">
+    <div class="p-5 flex flex-col gap-6">
+      <!-- Logo -->
+      <div class="flex items-center gap-3 px-2 py-1">
+        <div>
+          <h1 class="text-slate-900 text-sm font-bold">Techify</h1>
+          <p class="text-slate-500 text-xs">Admin Panel</p>
+        </div>
+      </div>
+
+      <!-- Nav -->
+      <nav class="flex flex-col gap-1">
+        <a routerLink="/" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-black/5 font-medium text-sm transition-colors mb-2 border border-black/5">
+          <span class="material-symbols-outlined text-[18px]">arrow_back</span>Back to Store
+        </a>
+        <button *ngFor="let sec of sections" (click)="activeSection = sec.id"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-sm transition-colors w-full text-left"
+          [ngClass]="activeSection === sec.id ? 'bg-sage/10 text-sage' : 'text-slate-600 hover:bg-black/5 hover:text-slate-900'">
+          <span class="material-symbols-outlined text-[18px]" [style.font-variation-settings]="activeSection === sec.id ? '\'FILL\' 1' : '\'FILL\' 0'">{{sec.icon}}</span>
+          {{sec.label}}
+          <span *ngIf="sec.id === 'orders' && newOrdersCount > 0"
+            class="ml-auto bg-amber-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">{{newOrdersCount}}</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Sidebar footer -->
+    <div class="p-4 border-t border-black/5">
+      <div class="flex items-center gap-3 px-2 py-2 mb-2">
+        <div class="size-8 rounded-full bg-sage/20 flex items-center justify-center text-sage font-bold text-sm flex-shrink-0">
+          {{currentAdminName.charAt(0) | uppercase}}
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-semibold text-slate-900 truncate">{{currentAdminName}}</p>
+          <p class="text-xs text-slate-500 truncate">{{currentAdminEmail}}</p>
+        </div>
+      </div>
+      <button (click)="logout()" class="flex items-center gap-3 px-3 py-2 rounded-lg text-rose-500 hover:bg-rose-50 font-medium text-sm transition-colors w-full">
+        <span class="material-symbols-outlined text-[18px]">logout</span>Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- ══════════════════════════════════════
+       MAIN CONTENT
+  ══════════════════════════════════════ -->
+  <main class="flex-1 flex flex-col overflow-hidden">
+
+    <!-- Top bar -->
+    <header class="flex-shrink-0 flex items-center justify-between px-8 py-4 bg-white border-b border-black/5">
+      <div>
+        <h2 class="text-slate-900 text-lg font-bold tracking-tight capitalize">{{activeSection}}</h2>
+        <p class="text-slate-500 text-xs">Techify Admin Dashboard</p>
+      </div>
+      <div class="flex items-center gap-4">
+        <!-- Add Product button (shows only on products tab) -->
+        <button *ngIf="activeSection === 'products'" (click)="openAddForm()"
+          class="bg-sage hover:bg-sage/90 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition-colors shadow-sm">
+          <span class="material-symbols-outlined text-[18px]">add</span>Add Product
+        </button>
+        <button (click)="loadData()" class="text-slate-500 hover:text-slate-900 transition-colors" title="Refresh">
+          <span class="material-symbols-outlined text-[22px]">refresh</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="flex-1 flex items-center justify-center">
+      <div class="flex flex-col items-center gap-3 text-slate-400">
+        <span class="material-symbols-outlined text-4xl animate-spin">refresh</span>
+        <p class="text-sm">Loading data...</p>
+      </div>
+    </div>
+
+    <div *ngIf="!loading" class="flex-1 overflow-auto p-6 md:p-8">
+      <div class="max-w-7xl mx-auto flex flex-col gap-8">
+
+        <!-- ──────────────────────────────
+             OVERVIEW SECTION
+        ────────────────────────────── -->
+        <ng-container *ngIf="activeSection === 'overview'">
+
+          <!-- Metric Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div class="bg-white rounded-2xl p-6 border border-black/5 shadow-sm flex flex-col gap-3">
+              <div class="flex justify-between items-start">
+                <div>
+                  <p class="text-slate-500 text-xs font-medium uppercase tracking-wider">Total Revenue</p>
+                  <p class="text-slate-900 text-2xl font-bold mt-1">₹{{totalRevenue.toFixed(0) | number}}</p>
+                </div>
+                <div class="bg-emerald-50 p-2.5 rounded-xl text-emerald-600">
+                  <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1">payments</span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-400">From {{orders.length}} total orders</p>
+            </div>
+            <div class="bg-white rounded-2xl p-6 border border-black/5 shadow-sm flex flex-col gap-3">
+              <div class="flex justify-between items-start">
+                <div>
+                  <p class="text-slate-500 text-xs font-medium uppercase tracking-wider">Total Orders</p>
+                  <p class="text-slate-900 text-2xl font-bold mt-1">{{orders.length}}</p>
+                </div>
+                <div class="bg-amber-50 p-2.5 rounded-xl text-amber-600">
+                  <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1">shopping_bag</span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-400"><span class="text-amber-500 font-semibold">{{newOrdersCount}} processing</span></p>
+            </div>
+            <div class="bg-white rounded-2xl p-6 border border-black/5 shadow-sm flex flex-col gap-3">
+              <div class="flex justify-between items-start">
+                <div>
+                  <p class="text-slate-500 text-xs font-medium uppercase tracking-wider">Total Users</p>
+                  <p class="text-slate-900 text-2xl font-bold mt-1">{{users.length}}</p>
+                </div>
+                <div class="bg-sage/10 p-2.5 rounded-xl text-sage">
+                  <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1">group</span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-400"><span class="text-sage font-semibold">{{newCustomersThisMonth}} new</span> this month</p>
+            </div>
+            <div class="bg-white rounded-2xl p-6 border border-black/5 shadow-sm flex flex-col gap-3">
+              <div class="flex justify-between items-start">
+                <div>
+                  <p class="text-slate-500 text-xs font-medium uppercase tracking-wider">Products</p>
+                  <p class="text-slate-900 text-2xl font-bold mt-1">{{products.length}}</p>
+                </div>
+                <div class="bg-indigo-50 p-2.5 rounded-xl text-indigo-600">
+                  <span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1">inventory_2</span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-400">In catalog</p>
+            </div>
+          </div>
+
+          <!-- Recent Orders -->
+          <div class="bg-white rounded-2xl border border-black/5 shadow-sm overflow-hidden">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-black/5">
+              <h3 class="font-semibold text-slate-900">Recent Orders</h3>
+              <button (click)="activeSection = 'orders'" class="text-sage text-sm font-medium hover:underline">View all →</button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
+                  <tr>
+                    <th class="px-6 py-3 text-left font-medium">Order ID</th>
+                    <th class="px-6 py-3 text-left font-medium">Customer</th>
+                    <th class="px-6 py-3 text-left font-medium">Date</th>
+                    <th class="px-6 py-3 text-right font-medium">Total</th>
+                    <th class="px-6 py-3 text-center font-medium">Status</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-black/5">
+                  <tr *ngFor="let order of orders.slice(0,5)" class="hover:bg-slate-50/50 transition-colors">
+                    <td class="px-6 py-4 font-mono font-medium text-slate-700">#{{order._id | slice:-6 | uppercase}}</td>
+                    <td class="px-6 py-4 text-slate-600">{{getOrderUserName(order)}}</td>
+                    <td class="px-6 py-4 text-slate-500">{{order.createdAt | date:'MMM d, y'}}</td>
+                    <td class="px-6 py-4 text-right font-semibold text-slate-900">₹{{order.totalPrice | number:'1.0-0'}}</td>
+                    <td class="px-6 py-4 text-center">
+                      <span [ngClass]="getOrderStatusClass(order.orderStatus)"
+                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold">{{order.orderStatus}}</span>
+                    </td>
+                  </tr>
+                  <tr *ngIf="orders.length === 0">
+                    <td colspan="5" class="px-6 py-10 text-center text-slate-400">No orders yet.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </ng-container>
+
+        <!-- ──────────────────────────────
+             PRODUCTS SECTION – Card Grid
+        ────────────────────────────── -->
+        <ng-container *ngIf="activeSection === 'products'">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="font-semibold text-slate-900 text-lg">Product Catalog</h3>
+            <div class="relative w-72">
+              <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+              <input type="text" (input)="onProductSearch($event)" placeholder="Search products..." class="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:ring-1 focus:ring-sage focus:outline-none" />
+            </div>
+          </div>
+          <div *ngIf="displayedProducts.length === 0" class="text-center py-20 text-slate-400">
+            <span class="material-symbols-outlined text-5xl mb-3 block">search_off</span>
+            <p>No products found matching your search.</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div *ngFor="let product of displayedProducts"
+              class="bg-white rounded-2xl border border-black/5 shadow-sm overflow-hidden flex flex-col group hover:shadow-md transition-shadow">
+
+              <!-- Product image -->
+              <div class="relative h-48 bg-slate-100 overflow-hidden">
+                <img *ngIf="product.images && product.images.length > 0"
+                  [src]="product.images[0]" [alt]="product.title"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                <div *ngIf="!product.images || product.images.length === 0"
+                  class="w-full h-full flex items-center justify-center text-slate-300">
+                  <span class="material-symbols-outlined text-5xl">image</span>
+                </div>
+                <!-- Discount badge -->
+                <span *ngIf="product.discountPercentage && product.discountPercentage > 0"
+                  class="absolute top-3 left-3 bg-rose-500 text-white text-[11px] font-bold px-2 py-0.5 rounded-full">
+                  -{{product.discountPercentage}}%
+                </span>
+                <!-- Stock badge -->
+                <span [ngClass]="product.stockQuantity === 0 ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'"
+                  class="absolute top-3 right-3 text-[11px] font-bold px-2 py-0.5 rounded-full">
+                  {{product.stockQuantity === 0 ? 'Out of Stock' : 'Qty: ' + product.stockQuantity}}
+                </span>
+              </div>
+
+              <!-- Product info -->
+              <div class="p-4 flex flex-col gap-1 flex-1">
+                <p class="text-[11px] text-slate-400 font-medium uppercase tracking-wider">{{product.category}} · {{product.brand}}</p>
+                <h3 class="font-semibold text-slate-900 text-sm leading-snug line-clamp-2" [title]="product.title">{{product.title}}</h3>
+                <div class="flex items-baseline gap-2 mt-1">
+                  <span class="text-sage font-bold text-base">₹{{getFinalPrice(product) | number:'1.0-0'}}</span>
+                  <span *ngIf="product.discountPercentage && product.discountPercentage > 0" class="text-slate-400 text-xs line-through">₹{{product.price | number:'1.0-0'}}</span>
+                </div>
+              </div>
+
+              <!-- Actions -->
+              <div class="px-4 pb-4 flex gap-2">
+                <button (click)="openEditForm(product)"
+                  class="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg border border-sage/30 text-sage text-sm font-medium hover:bg-sage/5 transition-colors">
+                  <span class="material-symbols-outlined text-[16px]">edit</span>Edit
+                </button>
+                <button (click)="deleteProduct(product._id)"
+                  class="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg border border-red-200 text-red-500 text-sm font-medium hover:bg-red-50 transition-colors">
+                  <span class="material-symbols-outlined text-[16px]">delete</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- ──────────────────────────────
+             ORDERS SECTION
+        ────────────────────────────── -->
+        <ng-container *ngIf="activeSection === 'orders'">
+          <div class="bg-white rounded-2xl border border-black/5 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-black/5 flex items-center justify-between">
+              <h3 class="font-semibold text-slate-900">All Orders <span class="text-slate-400 font-normal text-sm">({{orders.length}})</span></h3>
+              <div class="relative w-72">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                <input type="text" (input)="onOrderSearch($event)" placeholder="Search orders..." class="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:ring-1 focus:ring-sage focus:outline-none" />
+              </div>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
+                  <tr>
+                    <th class="px-6 py-3 text-left font-medium">Order ID</th>
+                    <th class="px-6 py-3 text-left font-medium">Customer</th>
+                    <th class="px-6 py-3 text-left font-medium">Items</th>
+                    <th class="px-6 py-3 text-left font-medium">Payment</th>
+                    <th class="px-6 py-3 text-left font-medium">Date</th>
+                    <th class="px-6 py-3 text-right font-medium">Total</th>
+                    <th class="px-6 py-3 text-center font-medium">Status</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-black/5">
+                  <tr *ngFor="let order of displayedOrders" class="hover:bg-slate-50/50 transition-colors">
+                    <td class="px-6 py-4 font-mono font-medium text-slate-700 whitespace-nowrap">#{{order._id | slice:-6 | uppercase}}</td>
+                    <td class="px-6 py-4">
+                      <p class="font-medium text-slate-900">{{getOrderUserName(order)}}</p>
+                      <p class="text-xs text-slate-400">{{order.shippingAddress.city}}, {{order.shippingAddress.country}}</p>
+                    </td>
+                    <td class="px-6 py-4 text-slate-600">{{order.orderItems.length}} item(s)</td>
+                    <td class="px-6 py-4 text-slate-500 text-xs">{{order.paymentMethod}}</td>
+                    <td class="px-6 py-4 text-slate-500 whitespace-nowrap">{{order.createdAt | date:'MMM d, y'}}</td>
+                    <td class="px-6 py-4 text-right font-semibold text-slate-900 whitespace-nowrap">₹{{order.totalPrice | number:'1.0-0'}}</td>
+                    <td class="px-6 py-4 text-center">
+                      <span [ngClass]="getOrderStatusClass(order.orderStatus)"
+                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold whitespace-nowrap">{{order.orderStatus}}</span>
+                    </td>
+                  </tr>
+                  <tr *ngIf="displayedOrders.length === 0">
+                    <td colspan="7" class="px-6 py-12 text-center text-slate-400">No orders found matching your search.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- ──────────────────────────────
+             USERS SECTION
+        ────────────────────────────── -->
+        <ng-container *ngIf="activeSection === 'users'">
+          <div class="bg-white rounded-2xl border border-black/5 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-black/5 flex items-center justify-between">
+              <h3 class="font-semibold text-slate-900">All Users <span class="text-slate-400 font-normal text-sm">({{users.length}})</span></h3>
+              <div class="relative w-72">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                <input type="text" (input)="onUserSearch($event)" placeholder="Search users by name or email..." class="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:ring-1 focus:ring-sage focus:outline-none" />
+              </div>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
+                  <tr>
+                    <th class="px-6 py-3 text-left font-medium">User</th>
+                    <th class="px-6 py-3 text-left font-medium">Role</th>
+                    <th class="px-6 py-3 text-left font-medium">Phone</th>
+                    <th class="px-6 py-3 text-center font-medium">Orders</th>
+                    <th class="px-6 py-3 text-right font-medium">Total Spent</th>
+                    <th class="px-6 py-3 text-left font-medium">Joined</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-black/5">
+                  <tr *ngFor="let user of displayedUsers" class="hover:bg-slate-50/50 transition-colors">
+                    <td class="px-6 py-4">
+                      <div class="flex items-center gap-3">
+                        <div class="size-9 rounded-full bg-sage/10 flex items-center justify-center text-sage font-bold text-sm flex-shrink-0">
+                          {{user.name.charAt(0) | uppercase}}
+                        </div>
+                        <div>
+                          <p class="font-medium text-slate-900">{{user.name}}</p>
+                          <p class="text-xs text-slate-400">{{user.email}}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <span [ngClass]="user.role === 'admin' ? 'bg-indigo-100 text-indigo-700' : 'bg-slate-100 text-slate-600'"
+                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold capitalize">{{user.role}}</span>
+                    </td>
+                    <td class="px-6 py-4 text-slate-500">{{user.phone || '—'}}</td>
+                    <td class="px-6 py-4 text-center font-semibold text-slate-700">{{getUserOrderCount(user._id)}}</td>
+                    <td class="px-6 py-4 text-right font-semibold text-slate-900">₹{{getUserTotalSpent(user._id) | number:'1.0-0'}}</td>
+                    <td class="px-6 py-4 text-slate-500 text-xs whitespace-nowrap">{{user.createdAt | date:'MMM d, y'}}</td>
+                  </tr>
+                  <tr *ngIf="displayedUsers.length === 0">
+                    <td colspan="6" class="px-6 py-12 text-center text-slate-400">No users found matching your search.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- ──────────────────────────────
+             MESSAGES SECTION
+        ────────────────────────────── -->
+        <ng-container *ngIf="activeSection === 'messages'">
+          <!-- Empty state -->
+          <div *ngIf="messages.length === 0" class="text-center py-20 text-slate-400">
+            <span class="material-symbols-outlined text-5xl mb-3 block">mail</span>
+            <p>No contact messages yet.</p>
+          </div>
+
+          <!-- Messages grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <div *ngFor="let msg of messages"
+              class="bg-white rounded-2xl border border-black/5 shadow-sm p-5 flex flex-col gap-4 hover:shadow-md transition-shadow">
+
+              <!-- Header: avatar + name + date -->
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div class="size-10 rounded-full bg-sage/10 flex items-center justify-center text-sage font-bold text-sm flex-shrink-0">
+                    {{msg.name.charAt(0) | uppercase}}
+                  </div>
+                  <div>
+                    <p class="font-semibold text-slate-900 text-sm">{{msg.name}}</p>
+                    <a [href]="'mailto:' + msg.email" class="text-xs text-sage hover:underline">{{msg.email}}</a>
+                  </div>
+                </div>
+                <div class="flex flex-col items-end gap-1.5">
+                  <span [ngClass]="msg.status === 'new' ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-500'"
+                    class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full capitalize">{{msg.status || 'new'}}</span>
+                  <span class="text-[11px] text-slate-400 whitespace-nowrap">{{msg.createdAt | date:'MMM d, y · h:mm a'}}</span>
+                </div>
+              </div>
+
+              <!-- Subject -->
+              <div class="border-l-2 border-sage pl-3">
+                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-0.5">Subject</p>
+                <p class="text-sm font-semibold text-slate-900">{{msg.subject}}</p>
+              </div>
+
+              <!-- Message body -->
+              <p class="text-sm text-slate-600 leading-relaxed line-clamp-4">{{msg.message}}</p>
+
+              <!-- Footer: WhatsApp + Reply -->
+              <div class="flex items-center justify-between pt-3 border-t border-black/5">
+                <div *ngIf="msg.whatsappNumber" class="flex items-center gap-1.5 text-xs text-slate-500">
+                  <span class="material-symbols-outlined text-[16px] text-green-500">phone</span>
+                  {{msg.whatsappNumber}}
+                </div>
+                <div *ngIf="!msg.whatsappNumber" class="text-xs text-slate-300">No WhatsApp</div>
+                <a [href]="'mailto:' + msg.email + '?subject=Re: ' + msg.subject"
+                  class="flex items-center gap-1.5 text-xs font-semibold text-sage hover:underline">
+                  <span class="material-symbols-outlined text-[15px]">reply</span>Reply
+                </a>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ══════════════════════════════════════
+     ADD / EDIT PRODUCT MODAL
+══════════════════════════════════════ -->
+<div *ngIf="showAddForm" class="fixed inset-0 z-50 flex" (click)="closeAddForm()">
+  <!-- Backdrop -->
+  <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+  <!-- Panel -->
+  <div class="relative ml-auto h-full w-full max-w-lg bg-white shadow-2xl flex flex-col overflow-hidden" (click)="$event.stopPropagation()">
+
+    <!-- Modal header -->
+    <div class="flex items-center justify-between px-6 py-5 border-b border-black/5">
+      <h3 class="text-lg font-bold text-slate-900">{{editingProductId ? 'Edit Product' : 'Add New Product'}}</h3>
+      <button (click)="closeAddForm()" class="text-slate-400 hover:text-slate-700 transition-colors">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <!-- Modal form -->
+    <div class="flex-1 overflow-y-auto p-6">
+      <form [formGroup]="addForm" (ngSubmit)="submitProduct()" class="space-y-5">
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="col-span-2">
+            <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wider">Product Title *</label>
+            <input formControlName="title" type="text" placeholder="e.g. Mechanical Keyboard Pro"
+              class="w-full px-3 py-2.5 rounded-lg border text-sm focus:ring-1 focus:ring-sage focus:border-sage outline-none transition"
+              [ngClass]="addForm.get('title')?.invalid && addForm.get('title')?.touched ? 'border-red-400 bg-red-50' : 'border-slate-200'" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wider">Category *</label>
+            <input formControlName="category" type="text" placeholder="Keyboards"
+              (input)="onCategoryInput($event)"
+              class="w-full px-3 py-2.5 rounded-lg border text-sm focus:ring-1 focus:ring-sage focus:border-sage outline-none transition border-slate-200" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wider">Brand *</label>
+            <input formControlName="brand" type="text" placeholder="Logitech"
+              (input)="onBrandInput($event)"
+              class="w-full px-3 py-2.5 rounded-lg border text-sm focus:ring-1 focus:ring-sage focus:border-sage outline-none transition border-slate-200" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wider">Price (₹) *</label>
+            <input formControlName="price" type="number" placeholder="0" min="0"
+              class="w-full px-3 py-2.5 rounded-lg border text-sm focus:ring-1 focus:ring-sage focus:border-sage outline-none transition"
+              [ngClass]="addForm.get('price')?.invalid && addForm.get('price')?.touched ? 'border-red-400 bg-red-50' : 'border-slate-200'" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wider">Discount %</label>
+            <input formControlName="discountPercentage" type="number" placeholder="0" min="0" max="100"
+              class="w-full px-3 py-2.5 rounded-lg border border-slate-200 text-sm focus:ring-1 focus:ring-sage focus:border-sage outline-none transition" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wider">Stock Qty *</label>
+            <input formControlName="stockQuantity" type="number" placeholder="0" min="0"
+              class="w-full px-3 py-2.5 rounded-lg border border-slate-200 text-sm focus:ring-1 focus:ring-sage focus:border-sage outline-none transition" />
+          </div>
+
+          <div class="col-span-2">
+            <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wider">Image URLs (comma-separated)</label>
+            <input formControlName="images" type="text" placeholder="https://..."
+              class="w-full px-3 py-2.5 rounded-lg border border-slate-200 text-sm focus:ring-1 focus:ring-sage focus:border-sage outline-none transition" />
+          </div>
+
+          <div class="col-span-2">
+            <label class="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wider">Description *</label>
+            <textarea formControlName="description" rows="3" placeholder="Product description..."
+              class="w-full px-3 py-2.5 rounded-lg border border-slate-200 text-sm focus:ring-1 focus:ring-sage focus:border-sage outline-none transition resize-none"
+              [ngClass]="addForm.get('description')?.invalid && addForm.get('description')?.touched ? 'border-red-400 bg-red-50' : 'border-slate-200'"></textarea>
+          </div>
+        </div>
+
+        <!-- Features -->
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <label class="text-xs font-semibold text-slate-600 uppercase tracking-wider">Features</label>
+            <button type="button" (click)="addFeature()" class="text-sage text-xs font-semibold hover:underline">+ Add feature</button>
+          </div>
+          <div formArrayName="features" class="space-y-2">
+            <div *ngFor="let f of features.controls; let i = index" [formGroupName]="i" class="flex gap-2">
+              <input formControlName="key" placeholder="Key" class="flex-1 px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-1 focus:ring-sage outline-none" />
+              <input formControlName="value" placeholder="Value" class="flex-1 px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-1 focus:ring-sage outline-none" />
+              <button type="button" (click)="removeFeature(i)" class="text-red-400 hover:text-red-600 px-1">
+                <span class="material-symbols-outlined text-[18px]">remove_circle</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+      </form>
+    </div>
+
+    <!-- Modal footer -->
+    <div class="border-t border-black/5 px-6 py-4 flex gap-3">
+      <button type="button" (click)="closeAddForm()"
+        class="flex-1 py-2.5 rounded-lg border border-slate-200 text-slate-600 text-sm font-semibold hover:bg-slate-50 transition-colors">
+        Cancel
+      </button>
+      <button type="button" (click)="submitProduct()" [disabled]="addingProduct"
+        class="flex-1 py-2.5 rounded-lg bg-sage text-white text-sm font-semibold hover:bg-sage/90 transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
+        <span *ngIf="addingProduct" class="material-symbols-outlined text-[16px] animate-spin">refresh</span>
+        {{editingProductId ? 'Save Changes' : 'Create Product'}}
+      </button>
+    </div>
+
+  </div>
+</div>

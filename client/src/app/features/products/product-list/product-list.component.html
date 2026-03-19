@@ -1,0 +1,112 @@
+<!-- Main Layout -->
+<div class="flex-1 w-full max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row gap-10 min-h-screen">
+<!-- Sidebar Filters -->
+<aside class="w-full md:w-64 flex-shrink-0 space-y-8">
+<div>
+
+<h1 class="text-3xl font-bold tracking-tight mb-2 text-slate-900 dark:text-white">All Products</h1>
+<p class="text-slate-600 dark:text-slate-400 text-sm">Discover our curated collection.</p>
+</div>
+<div class="space-y-6">
+<!-- Category Filter -->
+<div>
+<h3 class="font-bold text-slate-900 dark:text-white mb-4 uppercase text-xs tracking-wider">Categories</h3>
+<div class="space-y-3">
+<label *ngFor="let cat of categories" class="flex items-center gap-3 group cursor-pointer" (click)="filterByCategory(cat)">
+<input [checked]="selectedCategory === cat" class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary checked:bg-primary checkbox-custom transition-all" type="checkbox"/>
+<span class="text-sm text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">{{ cat }}</span>
+</label>
+</div>
+</div>
+<hr class="border-slate-200 dark:border-slate-800"/>
+<!-- Brands Filter -->
+<div>
+<h3 class="font-bold text-slate-900 dark:text-white mb-4 uppercase text-xs tracking-wider">Brands</h3>
+<div class="space-y-3">
+<label *ngFor="let brand of brands" class="flex items-center gap-3 group cursor-pointer">
+<input [checked]="selectedBrands.includes(brand)" (change)="toggleBrand(brand)" class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary checked:bg-primary checkbox-custom transition-all" type="checkbox"/>
+<span class="text-sm text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">{{ brand }}</span>
+</label>
+</div>
+</div>
+<hr class="border-slate-200 dark:border-slate-800"/>
+<!-- Price Range Filter -->
+<div>
+<h3 class="font-bold text-slate-900 dark:text-white mb-4 uppercase text-xs tracking-wider">Price Range</h3>
+<div class="px-2">
+<input class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-primary" [max]="priceAbsMax" min="0" type="range" [(ngModel)]="priceMax" (change)="applyFilters()"/>
+<div class="flex justify-between text-xs text-slate-500 mt-2">
+<span>₹0</span>
+<span>₹{{ priceMax }}</span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Product Grid -->
+<main class="flex-1">
+<div class="flex justify-end items-center mb-6">
+<div class="flex items-center gap-2">
+<span class="text-sm text-slate-500 hidden sm:block">Sort by:</span>
+<select [(ngModel)]="sortBy" (change)="applyFilters()" class="bg-transparent border-none text-sm font-medium text-slate-900 dark:text-white focus:ring-0 cursor-pointer pl-1 pr-6 py-1">
+<option value="Featured">Featured</option>
+<option value="Price: Low to High">Price: Low to High</option>
+<option value="Price: High to Low">Price: High to Low</option>
+<option value="Newest">Newest</option>
+</select>
+</div>
+</div>
+
+<div *ngIf="loading" class="flex justify-center items-center py-20">
+    <span class="material-symbols-outlined animate-spin text-primary text-4xl">refresh</span>
+</div>
+<div *ngIf="error" class="bg-red-50 text-red-500 p-4 rounded-lg my-8">
+    {{ error }}
+</div>
+
+<div *ngIf="!loading && !error" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Dynamic Product Card -->
+<div *ngFor="let product of filteredProducts" class="group bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 dark:border-slate-800 flex flex-col cursor-pointer" [routerLink]="['/products', product.id]">
+<div class="relative aspect-square bg-slate-50 dark:bg-slate-800 p-6 flex items-center justify-center overflow-hidden">
+<img [alt]="product.name" class="object-cover w-full h-full rounded-lg group-hover:scale-105 transition-transform duration-500 mix-blend-multiply dark:mix-blend-normal" [src]="product.image || 'https://via.placeholder.com/300?text=No+Image'"/>
+<span *ngIf="!product.inStock" class="absolute top-4 left-4 bg-red-100 text-red-600 border border-red-200 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wide">Out of Stock</span>
+<!-- Wishlist Heart Button -->
+<button
+  (click)="toggleWishlist($event, product.id)"
+  class="absolute top-4 right-4 p-2 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur flex items-center justify-center transition-all shadow-sm z-10"
+  [ngClass]="isInWishlist(product.id) ? 'text-red-500 opacity-100' : 'text-slate-400 opacity-0 group-hover:opacity-100'"
+  [title]="isInWishlist(product.id) ? 'Remove from Wishlist' : 'Add to Wishlist'">
+  <span *ngIf="!wishlistLoading.has(product.id)" class="material-symbols-outlined text-[20px]"
+    [style.font-variation-settings]="isInWishlist(product.id) ? '\'FILL\' 1' : '\'FILL\' 0'">favorite</span>
+  <span *ngIf="wishlistLoading.has(product.id)" class="material-symbols-outlined text-[20px] animate-spin">refresh</span>
+</button>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex flex-col items-start gap-1 w-full mb-3">
+<div class="flex items-baseline gap-2 shrink-0">
+    <span *ngIf="product.originalPrice" class="text-xs line-through text-slate-400">M.R.P: ₹{{ product.originalPrice }}</span>
+    <span class="font-bold text-primary text-xl">₹{{ product.price }}</span>
+</div>
+<h3 class="font-bold text-slate-900 dark:text-white text-lg leading-tight line-clamp-2 w-full">{{ product.name }}</h3>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-6 flex-1 line-clamp-2">{{ product.description }}</p>
+<button (click)="$event.stopPropagation(); cartService.add(product)" class="w-full py-2.5 px-4 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium text-sm hover:border-primary hover:text-primary transition-colors flex justify-center items-center gap-2 z-10 hover:bg-slate-50 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                            Add to Cart
+                        </button>
+</div>
+</div>
+
+</div>
+<!-- Pagination Placeholder -->
+<div *ngIf="!loading && filteredProducts.length > 0" class="mt-12 flex justify-center items-center gap-2">
+<button class="w-10 h-10 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-lg bg-primary text-white font-medium flex items-center justify-center">1</button>
+<button class="w-10 h-10 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</main>
+</div>

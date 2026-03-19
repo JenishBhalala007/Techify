@@ -1,0 +1,82 @@
+[{
+  "_id": {
+    "$oid": "69b21e637d44d765eebcbc6a"
+  },
+  "userId": {
+    "$oid": "69b1a97d7d6dbeb945a54fe0"
+  },
+  "orderItems": [
+    {
+      "productId": {
+        "$oid": "69a965d66b760564859a7d4a"
+      },
+      "title": "Zebronics RGB Keyboard",
+      "quantity": 1,
+      "priceAtPurchase": 1800,
+      "image": "https://zebronics.com/cdn/shop/files/Zeb-Max-Chroma-pic1.jpg?v=1750662694&width=800",
+      "_id": {
+        "$oid": "69b21e637d44d765eebcbc6b"
+      }
+    }
+  ],
+  "shippingAddress": {
+    "street": "410, Mahalaxmi Society ",
+    "city": "Surat",
+    "state": "Gujarat ",
+    "zipCode": "395010",
+    "country": "India"
+  },
+  "paymentMethod": "Cash on Delivery",
+  "itemsPrice": 1800,
+  "totalPrice": 1800,
+  "isPaid": false,
+  "orderStatus": "Processing",
+  "createdAt": {
+    "$date": "2026-03-12T02:01:07.608Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-12T02:01:07.608Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69b82e6c7bbafb79afc756da"
+  },
+  "userId": {
+    "$oid": "69b1a97d7d6dbeb945a54fe0"
+  },
+  "orderItems": [
+    {
+      "productId": {
+        "$oid": "69aeb50c7500fa5417bedc03"
+      },
+      "title": "ZEBRONICS Transformer PRO Gaming Wireless Keyboard & Mouse Combo",
+      "quantity": 1,
+      "priceAtPurchase": 1045,
+      "image": "https://zebronics.com/cdn/shop/files/Zeb-Transfoerm-Pro-pic1.jpg?v=1706869275&width=800",
+      "_id": {
+        "$oid": "69b82e6c7bbafb79afc756db"
+      }
+    }
+  ],
+  "shippingAddress": {
+    "street": "A-142, Mahalaxmi society, Yogi chowk",
+    "city": "surat",
+    "state": "gujarat",
+    "zipCode": "395010",
+    "country": "India"
+  },
+  "paymentMethod": "Cash on Delivery",
+  "itemsPrice": 1045,
+  "totalPrice": 1045,
+  "isPaid": false,
+  "orderStatus": "Processing",
+  "createdAt": {
+    "$date": "2026-03-16T16:23:08.883Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-16T16:23:08.883Z"
+  },
+  "__v": 0
+}]

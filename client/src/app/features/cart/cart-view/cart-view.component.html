@@ -1,0 +1,89 @@
+<main class="flex-1 w-full max-w-7xl mx-auto px-6 md:px-10 py-12 flex flex-col lg:flex-row gap-16">
+    <div class="flex-1 flex flex-col gap-8">
+        <div class="mb-4">
+            <h1 class="text-4xl font-black text-text-primary mb-2">Shopping Cart</h1>
+            <p class="text-text-secondary text-lg">{{ cartItems.length }} {{ cartItems.length === 1 ? 'item' : 'items' }} in your cart.</p>
+        </div>
+
+        <div class="flex flex-col gap-6" *ngIf="cartItems.length > 0">
+            <div class="bg-white rounded-2xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex gap-6 items-center" *ngFor="let item of cartItems">
+                <div class="bg-center bg-no-repeat bg-cover rounded-xl size-32 shrink-0 border border-black/5" 
+                     [style.background-image]="'url(' + (item.product.image || 'assets/images/placeholder.jpg') + ')'"></div>
+                <div class="flex-1 flex flex-col gap-1">
+                    <h3 class="text-xl font-bold text-text-primary">{{ item.product.name }}</h3>
+                    <p class="text-text-secondary text-sm">{{ item.product.category }}</p>
+                    <div class="mt-2 text-lg font-bold text-text-primary">
+                        ₹{{ item.product.price.toFixed(2) }}
+                        <span *ngIf="item.product.originalPrice" class="ml-2 text-sm line-through text-text-secondary">₹{{ item.product.originalPrice.toFixed(2) }}</span>
+                    </div>
+                </div>
+                
+                <div class="shrink-0 flex flex-col items-end gap-4">
+                    <button (click)="remove(item.product.id)" class="text-text-secondary hover:text-red-500 transition-colors p-2">
+                        <span class="material-symbols-outlined text-xl">delete</span>
+                    </button>
+                    
+                    <div class="flex items-center gap-3 bg-background-light rounded-full p-1 border border-black/5">
+                        <button (click)="updateQty(item.product.id, item.quantity - 1)" 
+                                [disabled]="item.quantity <= 1"
+                                class="size-8 flex items-center justify-center rounded-full hover:bg-white hover:shadow-sm transition-all text-text-primary font-medium disabled:opacity-50">-</button>
+                        <span class="w-4 text-center text-sm font-bold text-text-primary">{{ item.quantity }}</span>
+                        <button (click)="updateQty(item.product.id, item.quantity + 1)" 
+                                [disabled]="item.quantity >= 10"
+                                class="size-8 flex items-center justify-center rounded-full bg-white shadow-sm text-primary font-medium">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="cartItems.length === 0" class="py-12 flex flex-col items-center justify-center text-center">
+            <span class="material-symbols-outlined text-6xl text-slate-300 mb-4">shopping_cart</span>
+            <h2 class="text-2xl font-bold mb-2">Your cart is empty</h2>
+            <p class="text-text-secondary mb-6">Looks like you haven't added anything to your cart yet.</p>
+            <a routerLink="/products" class="h-12 px-6 bg-primary text-white rounded-lg flex items-center justify-center font-medium hover:bg-primary/90 transition-colors">Start Shopping</a>
+        </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="w-full lg:w-[400px] shrink-0" *ngIf="cartItems.length > 0">
+        <div class="bg-white rounded-3xl p-8 shadow-[0_8px_40px_rgb(0,0,0,0.06)] sticky top-8">
+            <h2 class="text-2xl font-bold text-text-primary mb-6">Order Summary</h2>
+            
+            <div class="flex flex-col gap-4 mb-8">
+                <div class="flex justify-between items-center">
+                    <span class="text-text-secondary">Subtotal</span>
+                    <span class="text-text-primary font-bold">₹{{ subtotal.toFixed(2) }}</span>
+                </div>
+                
+                <div class="flex justify-between items-center" *ngIf="discount > 0">
+                    <span class="text-text-secondary">Discount</span>
+                    <span class="text-emerald-500 font-bold">-₹{{ discount.toFixed(2) }}</span>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <span class="text-text-secondary">Shipping</span>
+                    <span class="text-text-primary">{{ shipping === 0 ? 'Free' : '₹' + shipping.toFixed(2) }}</span>
+                </div>
+                
+                <div class="h-px bg-black/5 w-full my-2"></div>
+                
+                <div class="flex justify-between items-center">
+                    <span class="text-text-primary font-bold text-lg">Total</span>
+                    <span class="text-text-primary font-black text-2xl">₹{{ total.toFixed(2) }}</span>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <button routerLink="/cart/checkout" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl transition-colors text-lg flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
+                    Proceed to Checkout
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                </button>
+            </div>
+            
+            <div class="mt-8 flex items-center justify-center gap-4 text-text-secondary text-sm">
+                <span class="material-symbols-outlined text-lg">lock</span>
+                Secure Checkout
+            </div>
+        </div>
+    </div>
+</main>

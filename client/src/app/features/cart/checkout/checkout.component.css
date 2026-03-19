@@ -1,0 +1,37 @@
+/* ─── Host: fills the page column inside app layout ─── */
+:host {
+  display: block;
+}
+
+/* ─── Tailwind custom colour tokens used in templates ─── */
+/* These are defined inline via Tailwind; the CSS below provides
+   any overrides needed for elements that cannot use inline classes */
+
+/* Smooth focus ring suppression (Tailwind's focus:ring-0 handles most but
+   some browsers still show outline on radio inputs) */
+input[type="radio"] {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Animate refresh icon for "Placing Order…" spinner */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.animate-spin {
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+
+/* Scrollbar styling for the cart item list */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 4px;
+}
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: rgba(44, 54, 63, 0.15);
+  border-radius: 4px;
+}

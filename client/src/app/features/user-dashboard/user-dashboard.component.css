@@ -1,0 +1,12 @@
+.glass-module {
+    background-color: #FFFFFF;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0,0,0,0.02);
+}
+
+@container (max-width: 120px) { .table-col-120 { display: none; } }
+@container (max-width: 240px) { .table-col-240 { display: none; } }
+@container (max-width: 360px) { .table-col-360 { display: none; } }
+@container (max-width: 416px) { .table-col-416 { display: none; } }
+@container (max-width: 536px) { .table-col-536 { display: none; } }
+@container (max-width: 656px) { .table-col-656 { display: none; } }

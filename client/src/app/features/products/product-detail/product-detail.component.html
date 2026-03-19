@@ -1,0 +1,112 @@
+<div *ngIf="loading" class="flex justify-center items-center py-20 min-h-screen">
+    <span class="material-symbols-outlined animate-spin text-primary text-4xl">refresh</span>
+</div>
+
+<div *ngIf="notFound" class="flex flex-col items-center justify-center py-20 min-h-screen">
+    <span class="material-symbols-outlined text-6xl text-slate-300 mb-4">search_off</span>
+    <h2 class="text-2xl font-bold mb-2">Product Not Found</h2>
+    <p class="text-slate-500 mb-6">The product you are looking for does not exist or has been removed.</p>
+    <a routerLink="/products" class="h-12 px-6 bg-primary text-white rounded-lg flex items-center justify-center font-medium hover:bg-primary/90 transition-colors">Back to Products</a>
+</div>
+
+<main *ngIf="!loading && !notFound && product" class="flex-1 w-full max-w-[1440px] mx-auto mt-0 lg:mt-0 p-4 lg:p-8">
+<!-- Back Button -->
+<a routerLink="/products" class="inline-flex items-center gap-2 text-text-secondary hover:text-primary transition-colors font-medium mb-6">
+    <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+    Back to Products
+</a>
+<div class="flex flex-col lg:flex-row min-h-[calc(100vh-140px)]">
+<!-- Left Gallery -->
+<div class="w-full lg:w-3/5 p-4 lg:p-8 lg:pr-4 flex flex-col gap-4">
+<!-- Main Image -->
+<div class="w-full aspect-[4/3] bg-center bg-no-repeat bg-cover rounded-2xl bg-slate-50 dark:bg-slate-800" [style.background-image]="'url(' + (images[activeImageIndex] || 'https://via.placeholder.com/800?text=No+Image') + ')'"></div>
+<!-- Thumbnails -->
+<div *ngIf="images.length > 1" class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
+  <div *ngFor="let img of images; let i = index" 
+       (click)="setActiveImage(i)"
+       class="w-full aspect-square bg-center bg-no-repeat bg-cover rounded-xl cursor-pointer border-2 transition-all"
+       [ngClass]="activeImageIndex === i ? 'border-primary shadow-md opacity-100' : 'border-transparent opacity-60 hover:opacity-100'"
+       [style.background-image]="'url(' + img + ')'">
+  </div>
+</div>
+</div>
+<!-- Right Info Panel -->
+<div class="w-full lg:w-2/5 p-6 lg:p-12 lg:pl-8 flex flex-col justify-center sticky top-[73px] lg:h-[calc(100vh-73px)] overflow-y-auto">
+<div class="max-w-md mx-auto w-full">
+<div class="flex flex-col gap-4 text-left mb-8">
+<h1 class="text-4xl lg:text-5xl font-black leading-tight tracking-tight text-slate-900 dark:text-white">
+                                    {{ product?.title }}
+                                </h1>
+<p class="text-text-secondary dark:text-slate-400 text-lg leading-relaxed">
+                                    {{ product?.description }}
+                                </p>
+<div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+  <div *ngIf="product?.discountPercentage > 0" class="flex flex-col items-start px-3 py-1 bg-red-50 text-red-600 rounded">
+      <span class="text-sm line-through text-slate-400 font-bold">M.R.P: ₹{{ product.price.toFixed(2) }}</span>
+  </div>
+  <div class="text-3xl font-bold text-primary">₹{{ finalPrice.toFixed(2) }}</div>
+</div>
+<span *ngIf="product?.stockQuantity === 0" class="text-red-500 font-medium text-sm">Out of stock</span>
+<span *ngIf="product?.stockQuantity > 0" class="text-emerald-500 font-medium text-sm">{{product.stockQuantity}} In stock</span>
+</div>
+
+<div class="flex items-center gap-4 mb-6" *ngIf="product?.stockQuantity > 0">
+    <div class="flex items-center border border-slate-200 dark:border-slate-700 rounded-lg h-14 overflow-hidden bg-white dark:bg-slate-900 w-32 shrink-0">
+        <button (click)="decreaseQuantity()" [disabled]="quantity <= 1" class="w-10 h-full flex justify-center items-center text-slate-500 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 transition-colors">
+            <span class="material-symbols-outlined text-[20px]">remove</span>
+        </button>
+        <span class="flex-1 text-center font-bold">{{ quantity }}</span>
+        <button (click)="increaseQuantity()" [disabled]="quantity >= 10 || quantity >= product.stockQuantity" class="w-10 h-full flex justify-center items-center text-slate-500 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 transition-colors">
+            <span class="material-symbols-outlined text-[20px]">add</span>
+        </button>
+    </div>
+</div>
+
+<div class="flex flex-col gap-4 mb-10">
+<button (click)="addToCart()" [disabled]="!product || product.stockQuantity === 0" class="w-full flex items-center justify-center rounded-full h-14 bg-primary text-white text-lg font-bold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed">
+                                    Buy Now
+                                </button>
+<button (click)="addToCart()" [disabled]="!product || product.stockQuantity === 0" class="w-full flex items-center justify-center rounded-full h-14 bg-transparent border-2 border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-lg font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                                    Add to Cart
+                                </button>
+<button (click)="toggleWishlist()" class="w-full flex items-center justify-center rounded-full h-14 bg-transparent border-2 border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-lg font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+    <span class="material-symbols-outlined mr-2" [style.font-variation-settings]="isInWishlist ? '\'FILL\' 1' : '\'FILL\' 0'" [ngClass]="isInWishlist ? 'text-red-500' : ''">favorite</span> 
+    {{ isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist' }}
+</button>
+</div>
+<div class="border-t border-slate-200 dark:border-slate-800 pt-8" *ngIf="product?.category || product?.brand">
+<h3 class="text-xl font-bold mb-6">Specifications</h3>
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-800/50" *ngIf="product?.category">
+<span class="text-slate-500 dark:text-slate-400 font-medium">Category</span>
+<span class="font-medium text-right text-slate-900 dark:text-slate-100">{{ product.category }}</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-800/50" *ngIf="product?.brand">
+<span class="text-slate-500 dark:text-slate-400 font-medium">Brand</span>
+<span class="font-medium text-right text-slate-900 dark:text-slate-100">{{ product.brand }}</span>
+</div>
+<!-- Dynamic Features -->
+<div class="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-800/50" *ngFor="let feat of productFeatures">
+<span class="text-slate-500 dark:text-slate-400 font-medium capitalize">{{ feat.key }}</span>
+<span class="font-medium text-right text-slate-900 dark:text-slate-100">{{ feat.value }}</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Similar Items -->
+<div class="px-6 lg:px-10 py-16 border-t border-slate-200 dark:border-slate-800 mt-8" *ngIf="similarProducts.length > 0">
+<h2 class="text-2xl font-bold leading-tight mb-8">Complete Your Setup</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<a *ngFor="let sim of similarProducts" [routerLink]="['/products', sim.id]" class="group flex flex-col gap-4 border border-slate-100 p-4 rounded-xl hover:shadow-md transition-shadow">
+<div class="w-full aspect-square bg-slate-50 dark:bg-slate-800 bg-center bg-no-repeat bg-cover rounded-xl overflow-hidden transition-transform duration-300 group-hover:scale-[1.02]" [style.background-image]="'url(' + (sim.image || 'https://via.placeholder.com/300') + ')'"></div>
+<div>
+<p class="text-lg font-bold group-hover:text-primary transition-colors truncate">{{ sim.name }}</p>
+<p class="text-slate-500 dark:text-slate-400 font-medium mt-1">₹{{ sim.price }}</p>
+</div>
+</a>
+</div>
+</div>
+</main>

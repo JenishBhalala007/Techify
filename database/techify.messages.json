@@ -1,0 +1,18 @@
+[{
+  "_id": {
+    "$oid": "69b22ff27d44d765eebcbe56"
+  },
+  "name": "Jenish Bhalala",
+  "email": "jenish@gmail.com",
+  "whatsappNumber": "7485968574",
+  "subject": "General Inquiry",
+  "message": "How are you ?",
+  "status": "unread",
+  "createdAt": {
+    "$date": "2026-03-12T03:16:02.758Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-12T03:16:02.758Z"
+  },
+  "__v": 0
+}]

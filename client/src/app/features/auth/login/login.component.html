@@ -1,0 +1,71 @@
+<!-- Top Navigation (Minimal for split screen) -->
+<header class="absolute top-0 left-0 w-full flex items-center justify-between px-8 py-6 z-10 pointer-events-none">
+<div class="flex items-center gap-3 text-white mix-blend-difference pointer-events-auto">
+<h2 class="text-xl font-bold tracking-tight">Techify</h2>
+</div>
+<div class="hidden md:flex items-center gap-8 text-white mix-blend-difference pointer-events-auto">
+<a routerLink="/" class="text-sm font-medium hover:opacity-80 transition-opacity">Home</a>
+</div>
+</header>
+<!-- Main Content: Split Screen -->
+<main class="flex-1 flex flex-col lg:flex-row h-screen">
+<!-- Left Side: Lifestyle Image -->
+<div class="hidden lg:block lg:w-5/12 xl:w-1/2 relative bg-primary/10">
+<div class="absolute inset-0 bg-cover bg-center bg-no-repeat" data-alt="Minimalist desk setup with natural light and plants" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDm0vZ9FTob86TIneKe6VC5zCjhZsoU4SgQ86CHngDDSDpUsuZdRdPg4HXeRLXH40fVj86HqrGuTGF4u5qLxvmWl6pe8cDjJ4SG67USq5fGOqyISGT53ST17rqF7Y5eluH87gN4VfTiDfSuhSfTn8UzEouUEUCU_a62eNwsy5nB2cR1zr82WzezZ_bi3tlI9tDvQld38pvt78fBKknkdxW5M0we2hQnqwP0MnTIn3bmFg3U-Mi7wgWjKfoC3zxN4K83nlMVDN7Ku3I');">
+</div>
+<!-- Optional subtle overlay -->
+<div class="absolute inset-0 bg-black/10"></div>
+</div>
+<!-- Right Side: Login Form Area -->
+<div class="flex-1 flex flex-col justify-center items-center px-6 py-12 lg:px-16 relative overflow-hidden bg-[#fdfdfa] dark:bg-background-dark">
+<!-- Decorative background elements -->
+<div class="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[100px] pointer-events-none"></div>
+<div class="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[100px] pointer-events-none"></div>
+<div class="w-full max-w-md bg-surface border border-slate-200 dark:bg-surface-dark p-10 md:p-12 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] relative z-10 w-full">
+<div class="flex flex-col text-center mb-10 w-full">
+<h1 class="text-3xl md:text-4xl font-bold leading-tight tracking-tight text-text-primary dark:text-white mb-3">
+                        Welcome back
+                    </h1>
+<p class="text-text-secondary dark:text-slate-400 text-sm md:text-base">
+                        Log in to your account to continue your Nordic lifestyle journey.
+                    </p>
+<div *ngIf="error" class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+  <span class="block sm:inline">{{ error }}</span>
+</div>
+</div>
+<form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="flex flex-col gap-6 w-full">
+<div class="flex flex-col gap-5 w-full">
+<label class="flex flex-col gap-2 w-full">
+<span class="text-sm font-semibold text-text-primary dark:text-slate-200">Email</span>
+<div class="relative flex items-center w-full">
+<span class="material-symbols-outlined absolute left-4 text-text-secondary dark:text-slate-400 text-[20px]">mail</span>
+<input formControlName="email" class="form-input w-full rounded-lg border border-border dark:border-border-dark bg-background-light dark:bg-background-dark/50 focus:border-primary focus:ring-1 focus:ring-primary text-text-primary dark:text-white h-14 pl-12 pr-4 text-base placeholder:text-text-secondary/60 transition-colors w-full" placeholder="Enter your email address" required="" type="email"/>
+</div>
+</label>
+<label class="flex flex-col gap-2 w-full">
+<div class="flex justify-between items-baseline w-full">
+<span class="text-sm font-semibold text-text-primary dark:text-slate-200">Password</span>
+</div>
+<div class="relative flex items-center w-full">
+<span class="material-symbols-outlined absolute left-4 text-text-secondary dark:text-slate-400 text-[20px]">lock</span>
+<input formControlName="password" class="form-input w-full rounded-lg border border-border dark:border-border-dark bg-background-light dark:bg-background-dark/50 focus:border-primary focus:ring-1 focus:ring-primary text-text-primary dark:text-white h-14 pl-12 pr-12 text-base placeholder:text-text-secondary/60 transition-colors w-full" placeholder="Enter your password" required="" type="password"/>
+</div>
+</label>
+</div>
+<div class="flex flex-col gap-4 mt-2 w-full">
+<button [disabled]="loading || loginForm.invalid" class="w-full flex items-center justify-center gap-2 rounded-lg h-14 bg-primary hover:bg-primary/90 text-white text-base font-bold tracking-wide transition-all shadow-sm" type="submit">
+  <span *ngIf="!loading">Sign In <span class="material-symbols-outlined text-[20px]" style="vertical-align:bottom">arrow_forward</span></span>
+  <span *ngIf="loading">Signing In...</span>
+</button>
+</div>
+</form>
+<p class="text-center text-sm text-text-secondary dark:text-slate-400 mt-8 w-full">
+                    Don't have an account? <a routerLink="/auth/signup" class="font-bold text-text-primary dark:text-white hover:text-primary transition-colors cursor-pointer">Sign up</a>
+</p>
+<div class="mt-8 flex gap-6 text-sm text-text-secondary dark:text-slate-500 justify-center w-full">
+  <button (click)="fillAdminCredentials()" class="hover:text-primary transition-colors text-xs border border-dashed border-slate-300 p-1 rounded">Admin Login</button>
+  <button (click)="fillUserCredentials()" class="hover:text-primary transition-colors text-xs border border-dashed border-slate-300 p-1 rounded">User Login</button>
+</div>
+</div>
+</div>
+</main>

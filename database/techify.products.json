@@ -1,0 +1,139 @@
+[{
+  "_id": {
+    "$oid": "69a965d66b760564859a7d4a"
+  },
+  "title": "Zebronics RGB Keyboard",
+  "description": "Zebronics RGB keyboards are\nbudget-friendly, durable gaming peripherals featuring multi-color LED backlighting, aluminum frames, and 104-key layouts. Known for models like the Zeb-Transformer and Zeb-Max, they offer customizable lighting modes, multimedia keys, braided cables, and mechanical or membrane options",
+  "category": "Keyboard ",
+  "brand": "Zebronics",
+  "images": [
+    "https://zebronics.com/cdn/shop/files/Zeb-Max-Chroma-pic1.jpg?v=1750662694&width=800",
+    "https://zebronics.com/cdn/shop/files/Zeb-Max-Chroma-pic2.jpg?v=1750662694&width=800",
+    "https://zebronics.com/cdn/shop/files/Zeb-MaxChroma-pic3.jpg?v=1750662694&width=800"
+  ],
+  "price": 2000,
+  "discountPercentage": 10,
+  "stockQuantity": 0,
+  "features": {
+    "Illuminated Keys": "Yes",
+    "Internet Keys": "Yes",
+    "Special Key Types": "Hot Swappable keys",
+    "Backlight Color": "RGB"
+  },
+  "createdAt": {
+    "$date": "2026-03-05T11:15:34.336Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-12T02:49:07.752Z"
+  },
+  "__v": 0,
+  "maxStockQuantity": 200
+},
+{
+  "_id": {
+    "$oid": "69aeb50c7500fa5417bedc03"
+  },
+  "title": "ZEBRONICS Transformer PRO Gaming Wireless Keyboard & Mouse Combo",
+  "description": "ZEBRONICS Transformer PRO Gaming Wireless Keyboard & Mouse Combo with 2.4GHz, Aluminum Body, Built in Battery, Multicolor LED Modes, Type C, Double Shot Keycaps, up to 4000 DPI ",
+  "category": "Keyboard ",
+  "brand": "Zebronics",
+  "images": [
+    "https://zebronics.com/cdn/shop/files/Zeb-Transfoerm-Pro-pic1.jpg?v=1706869275&width=800",
+    "https://rukminim2.flixcart.com/image/1536/1536/xif0q/keyboard/multi-device-keyboard/x/0/d/transformer-pro-zebronics-original-imahh3h6phtfz8sy.jpeg?q=90",
+    "https://rukminim2.flixcart.com/image/1536/1536/xif0q/keyboard/multi-device-keyboard/d/w/d/transformer-pro-zebronics-original-imahh3h6d6ythwdm.jpeg?q=90",
+    "https://rukminim2.flixcart.com/image/1536/1536/xif0q/keyboard/multi-device-keyboard/6/j/i/transformer-pro-zebronics-original-imahh3h6gg495yhu.jpeg?q=90",
+    "https://rukminim2.flixcart.com/image/1536/1536/xif0q/keyboard/multi-device-keyboard/t/t/x/transformer-pro-zebronics-original-imahh3h6mwfkdx6h.jpeg?q=90",
+    "https://rukminim2.flixcart.com/image/1536/1536/xif0q/keyboard/multi-device-keyboard/7/f/x/transformer-pro-zebronics-original-imahh3h6x76tehmc.jpeg?q=90",
+    "https://rukminim2.flixcart.com/image/1536/1536/xif0q/keyboard/multi-device-keyboard/a/8/b/transformer-pro-zebronics-original-imahh3h6gscacryx.jpeg?q=90"
+  ],
+  "price": 1100,
+  "discountPercentage": 5,
+  "stockQuantity": 99,
+  "features": {
+    "Connectivity": "Enjoy a seamless gaming experience with the ZEB-Transformer Pro wireless keyboard and mouse combo that provides a reliable 2.4GHz wireless connection ",
+    "Keys on the keyboard": "The keyboard with 104 keys has a detailed layout, with a dedicated Rupee key (₹) for efficient typing ",
+    "Outlook": "The ZEB-Transformer Pro keyboard has an aluminum body and a 2-step stand to enhance comfortability ",
+    "Power-saver": "Conserve the energy with the keyboard’s power-saver mode, boosting efficiency. It has a built-in rechargeable battery ",
+    "Ergonomic design": "The easy-to-hold, matte-finished ZEB-Transformer Pro mouse is crafted with an ergonomic design for comfortable usage "
+  },
+  "createdAt": {
+    "$date": "2026-03-09T11:54:52.785Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-16T16:23:08.911Z"
+  },
+  "__v": 1,
+  "maxStockQuantity": 100
+},
+{
+  "_id": {
+    "$oid": "69afbf55c8d5dbe3db9543f6"
+  },
+  "title": "Zeb Max Ninja 200",
+  "description": "ZEBRONICS Premium Wireless Mechanical Keyboard, Outemu RED Switch, 3X Bluetooth, Hot swap, Mac, Android, Windows, Type C 1.8m Braided Cable, 2.4GHz RF, 18 RGB LED & Backlit Keys MAX Ninja 200 - White",
+  "category": "Keyboard",
+  "brand": "Zebronics",
+  "images": [
+    "https://zebronics.com/cdn/shop/products/ZEB-MAX-NINJA-200-pic1.jpg?v=1679031998&width=800",
+    "https://zebronics.com/cdn/shop/products/ZEB-MAX-NINJA-200-pic2.jpg?v=1679031998&width=800",
+    "https://zebronics.com/cdn/shop/products/ZEB-MAX-NINJA-200-pic3.jpg?v=1679031998&width=800",
+    "https://zebronics.com/cdn/shop/products/ZEB-MAX-NINJA-200-pic4.jpg?v=1679031998&width=800",
+    "https://zebronics.com/cdn/shop/products/ZEB-MAX-NINJA-200-pic5.jpg?v=1679031998&width=800",
+    "https://zebronics.com/cdn/shop/products/ZEB-MAX-NINJA-200-pic6.jpg?v=1679031998&width=800"
+  ],
+  "price": 9999,
+  "discountPercentage": 5,
+  "stockQuantity": 150,
+  "maxStockQuantity": 150,
+  "features": {
+    "Illuminated Keys": "Yes",
+    "Internet Keys": "Yes",
+    "Special Key Types": "Hot Swappable keys",
+    "Backlight Color": "RGB",
+    "Switch Type": "Mechanical",
+    "Power Source": "DC"
+  },
+  "createdAt": {
+    "$date": "2026-03-10T06:51:01.219Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-10T06:51:01.219Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69b2298d7d44d765eebcbd26"
+  },
+  "title": "ZEBRONICS Zeb-Companion 301",
+  "description": "ZEBRONICS Zeb-Companion 301 (Garden) Wireless Standard Desktop Keyboard Compatible with Desktop, iPad, Laptop, Mac, Tablet (Garden)",
+  "category": "Keyboard & mouse",
+  "brand": "ZEBRONICS",
+  "images": [
+    "https://rukminim2.flixcart.com/image/3072/3072/xif0q/keyboard/desktop-keyboard/8/d/i/zeb-companion-301-garden-zebronics-original-imahh3jubhzmfzxu.jpeg?q=90",
+    "https://rukminim2.flixcart.com/image/3072/3072/xif0q/keyboard/desktop-keyboard/d/6/9/zeb-companion-301-garden-zebronics-original-imahh3juwbyhbrxr.jpeg?q=90",
+    "https://rukminim2.flixcart.com/image/3072/3072/xif0q/keyboard/desktop-keyboard/y/f/x/zeb-companion-301-garden-zebronics-original-imahh3jumyqhf4ya.jpeg?q=90",
+    "https://rukminim2.flixcart.com/image/3072/3072/xif0q/keyboard/desktop-keyboard/s/k/v/zeb-companion-301-garden-zebronics-original-imahh3juzfawfyqy.jpeg?q=90",
+    "https://rukminim2.flixcart.com/image/3072/3072/xif0q/keyboard/desktop-keyboard/e/k/y/zeb-companion-301-garden-zebronics-original-imahh3jurcrpxphj.jpeg?q=90",
+    "https://rukminim2.flixcart.com/image/3072/3072/xif0q/keyboard/desktop-keyboard/h/p/o/zeb-companion-301-garden-zebronics-original-imahh3jumxwmqpqw.jpeg?q=90",
+    "https://rukminim2.flixcart.com/image/3072/3072/xif0q/keyboard/desktop-keyboard/x/g/o/zeb-companion-301-garden-zebronics-original-imahh3jugtnbqhhe.jpeg?q=90"
+  ],
+  "price": 1000,
+  "discountPercentage": 0,
+  "stockQuantity": 100,
+  "maxStockQuantity": 100,
+  "features": {
+    "Stand Support": "Yes",
+    "Special Key Types": "UV Coated Kеусар",
+    "Backlight Color": "RGB",
+    "Compatible With": "Desktop, iPad, Laptop, Mac, Tablet",
+    "Battery Type": "AAA Type"
+  },
+  "createdAt": {
+    "$date": "2026-03-12T02:48:45.489Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-12T02:48:45.489Z"
+  },
+  "__v": 0
+}]

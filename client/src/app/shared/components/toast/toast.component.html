@@ -1,0 +1,32 @@
+<!-- Fixed bottom-right toast stack -->
+<div class="fixed bottom-6 right-6 z-[9999] flex flex-col gap-3 pointer-events-none" style="min-width: 320px; max-width: 420px;">
+  <div
+    *ngFor="let toast of toasts"
+    class="flex items-start gap-3 px-4 py-4 rounded-xl shadow-lg border text-sm font-medium pointer-events-auto animate-slide-in"
+    [ngClass]="{
+      'bg-emerald-50 border-emerald-200 text-emerald-900': toast.type === 'success',
+      'bg-red-50 border-red-200 text-red-900':            toast.type === 'error',
+      'bg-blue-50 border-blue-200 text-blue-900':         toast.type === 'info',
+      'bg-amber-50 border-amber-200 text-amber-900':      toast.type === 'warning'
+    }">
+    <!-- Icon -->
+    <span class="material-symbols-outlined text-[22px] flex-shrink-0 mt-[1px]"
+      [ngClass]="{
+        'text-emerald-500': toast.type === 'success',
+        'text-red-500':     toast.type === 'error',
+        'text-blue-500':    toast.type === 'info',
+        'text-amber-500':   toast.type === 'warning'
+      }">
+      {{toast.type === 'success' ? 'check_circle' :
+        toast.type === 'error'   ? 'error' :
+        toast.type === 'warning' ? 'warning' : 'info'}}
+    </span>
+    <!-- Message -->
+    <span class="flex-1 leading-snug">{{toast.message}}</span>
+    <!-- Dismiss -->
+    <button (click)="toastService.dismiss(toast.id)"
+      class="flex-shrink-0 ml-1 opacity-50 hover:opacity-100 transition-opacity">
+      <span class="material-symbols-outlined text-[18px]">close</span>
+    </button>
+  </div>
+</div>

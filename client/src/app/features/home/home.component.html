@@ -1,0 +1,83 @@
+<!-- Hero Section -->
+<div class="mb-16 w-full">
+  <div class="relative flex min-h-[500px] lg:min-h-[600px] flex-col gap-6 bg-cover bg-center bg-no-repeat items-start justify-center overflow-hidden" data-alt="Sleek mechanical keyboard on a light wood desk" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCB2rxbc76TbkCTyd20tNBqo3TIrGOCzC05azkyxPxGW1lTmnLWB-wuobWeuS6JCV4r0NMrsVh85lPiKQMJMIXhmDIuuZbE_hgQe3410__oIUGJPeVtSq-JfiLBQe20hb7FzLIXX2FaiMVypKlFHfnpfzSoZg301jeMVroLq4DRXOdPRilWEXEXsPrbw9iNe44YsB3GhVYLu4hYTF1SImTWSW8NO4p3t9w83-2DPYLxNF7PGmHU1Pfi6yZVkWtrkjrIAoClDro3u5E");'>
+    <div class="absolute inset-0 bg-gradient-to-r from-background-light/95 via-background-light/70 to-transparent dark:from-background-dark/95 dark:via-background-dark/70"></div>
+    <div class="relative z-10 w-full max-w-[1200px] mx-auto px-4 md:px-10 flex flex-col gap-4 text-left">
+      <div class="max-w-xl">
+        <span class="text-primary font-bold text-sm tracking-widest uppercase mb-2 block">New Collection</span>
+        <h1 class="text-text-primary dark:text-white text-4xl sm:text-5xl lg:text-7xl font-black leading-tight tracking-tight font-display mb-4">
+          Elevate Your<br/>Workspace
+        </h1>
+        <h2 class="text-slate-600 dark:text-slate-300 text-lg font-normal leading-relaxed max-w-md mb-8">
+          Minimalist, high-performance gear for a balanced digital life. Designed for focus.
+        </h2>
+        <div class="flex gap-4">
+          <button class="flex items-center justify-center rounded-full h-12 px-8 bg-primary text-white text-base font-bold shadow-lg hover:shadow-xl hover:bg-primary/90 transition-all">
+            Shop the Collection
+          </button>
+          <button class="flex items-center justify-center rounded-full h-12 px-8 bg-white dark:bg-slate-800 text-text-primary dark:text-slate-100 text-base font-bold border border-primary/20 hover:bg-primary/5 transition-all shadow-sm">
+            Explore
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Categories -->
+<div class="mb-16 max-w-[1200px] w-full mx-auto px-4 md:px-10">
+<div class="flex justify-between items-end mb-6">
+<h2 class="text-text-primary dark:text-white text-2xl font-bold tracking-tight font-display">Shop by Category</h2>
+<a class="text-primary text-sm font-semibold hover:underline flex items-center gap-1" href="#">View all <span class="material-symbols-outlined text-[16px]">arrow_forward</span></a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+<div class="group flex flex-col gap-4 rounded-2xl border border-primary/10 bg-white dark:bg-slate-800 p-8 items-center justify-center cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+<div class="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[32px]">keyboard</span>
+</div>
+<h3 class="text-text-primary dark:text-white text-lg font-bold">Keyboards</h3>
+</div>
+<div class="group flex flex-col gap-4 rounded-2xl border border-primary/10 bg-white dark:bg-slate-800 p-8 items-center justify-center cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+<div class="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[32px]">mouse</span>
+</div>
+<h3 class="text-text-primary dark:text-white text-lg font-bold">Mice</h3>
+</div>
+<div class="group flex flex-col gap-4 rounded-2xl border border-primary/10 bg-white dark:bg-slate-800 p-8 items-center justify-center cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+<div class="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[32px]">headphones</span>
+</div>
+<h3 class="text-text-primary dark:text-white text-lg font-bold">Audio</h3>
+</div>
+</div>
+</div>
+<!-- Curated Favorites -->
+<div class="mb-20 max-w-[1200px] w-full mx-auto px-4 md:px-10">
+<h2 class="text-text-primary dark:text-white text-2xl font-bold tracking-tight mb-6 font-display">Curated Favorites</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <!-- Dynamic Product Card -->
+    <div *ngFor="let product of featuredProducts" [routerLink]="['/products', product.id]" class="flex flex-col group cursor-pointer">
+        <div class="relative aspect-[4/5] rounded-2xl bg-slate-50 dark:bg-slate-800 border border-primary/5 overflow-hidden mb-4 shadow-sm group-hover:shadow-lg transition-all duration-300 flex items-center justify-center p-4">
+            <div class="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-colors z-10"></div>
+            <img [alt]="product.name" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500 mix-blend-multiply dark:mix-blend-normal rounded-xl" [src]="product.image || 'https://via.placeholder.com/300?text=No+Image'"/>
+            <div class="absolute top-4 right-4 z-20">
+                <button class="h-8 w-8 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm flex items-center justify-center text-slate-400 hover:text-red-500 transition-colors" (click)="$event.stopPropagation()">
+                    <span class="material-symbols-outlined text-[18px]">favorite</span>
+                </button>
+            </div>
+            <!-- Discount Tag -->
+            <div *ngIf="product.originalPrice" class="absolute top-4 left-4 z-20">
+                <span class="px-2 py-1 bg-red-600 text-white text-[10px] font-bold rounded-sm uppercase tracking-wide">Sale</span>
+            </div>
+        </div>
+        <div class="flex flex-col gap-1 px-1">
+            <div class="flex items-baseline gap-2 mt-1">
+                <span *ngIf="product.originalPrice" class="text-xs line-through text-slate-400">M.R.P: ₹{{ product.originalPrice }}</span>
+                <span class="text-primary font-bold text-lg">₹{{ product.price }}</span>
+            </div>
+            <h3 class="text-text-primary dark:text-slate-100 font-bold text-base line-clamp-2">{{ product.name }}</h3>
+            <!-- Category omitted to save space for wrapping text if desired, or keep it: -->
+            <p class="text-slate-500 text-xs truncate">{{ product.category }}</p>
+        </div>
+    </div>
+</div>
+</div>
