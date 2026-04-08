@@ -111,6 +111,10 @@ export class ProductCardComponent implements OnInit, OnDestroy {
 
   addToCart(e: Event): void {
     e.stopPropagation();
+    if (this.product.stockQuantity === 0) {
+      alert('This product is out of stock.');
+      return;
+    }
     this.cartService.add(this.product);
   }
 

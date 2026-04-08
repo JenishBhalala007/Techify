@@ -52,6 +52,14 @@ export class AuthService {
     }
   }
 
+  updateSession(userData: any) {
+    const currentUser = this.getCurrentUser();
+    if (currentUser) {
+        const updatedUser = { ...currentUser, ...userData };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+    }
+  }
+
   logout() {
     localStorage.removeItem('id_token');
     localStorage.removeItem('user');

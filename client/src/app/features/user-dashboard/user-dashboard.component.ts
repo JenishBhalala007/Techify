@@ -14,6 +14,7 @@ interface Product {
   qty: number;
   price?: string;
   originalProduct?: any;
+  stockQuantity?: number;
 }
 
 interface OrderDisplay {
@@ -272,7 +273,11 @@ export class UserDashboardComponent implements OnInit {
       next: (updated) => {
         this.userProfile = { ...this.userProfile!, ...updated };
         this.savingProfile = false;
+        this.isEditMode = false;
+        this.profileSaved = true;
+        this.authService.updateSession({ name: updated.name, phone: updated.phone }); // Sync session
         this.toast.success('Profile updated successfully!');
+        setTimeout(() => this.profileSaved = false, 3000);
       },
       error: () => {
         this.savingProfile = false;

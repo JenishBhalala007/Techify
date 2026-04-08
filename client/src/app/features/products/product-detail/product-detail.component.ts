@@ -81,8 +81,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   }
 
   increaseQuantity(): void {
-    if (this.quantity < 10) {
-      this.quantity++;
+    if (this.product && this.quantity < this.product.stockQuantity) {
+      if (this.quantity < 10) {
+        this.quantity++;
+      }
     }
   }
 
@@ -98,6 +100,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   addToCart(): void {
     if (this.product) {
+      if (this.product.stockQuantity === 0) {
+        alert('This product is out of stock.');
+        return;
+      }
       // Add product to cart generic store
       const p = {
         id: this.product._id,
