@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.productService.fetchAll().subscribe({
       next: (products) => {
-        this.featuredProducts = products.slice(0, 8);
+        this.featuredProducts = products.filter(p => p.originalPrice && p.originalPrice > p.price).slice(0, 8);
         this.trendingProducts = products.slice(0, 10);
       },
       error: (err) => {

@@ -51,35 +51,11 @@
 </div>
 </div>
 <!-- Curated Favorites -->
-<div class="mb-20 max-w-[1200px] w-full mx-auto px-4 md:px-10">
-<h2 class="text-text-primary dark:text-white text-2xl font-bold tracking-tight mb-6 font-display">Curated Favorites</h2>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-    <!-- Dynamic Product Card -->
-    <div *ngFor="let product of featuredProducts" [routerLink]="['/products', product.id]" class="flex flex-col group cursor-pointer">
-        <div class="relative aspect-[4/5] rounded-2xl bg-slate-50 dark:bg-slate-800 border border-primary/5 overflow-hidden mb-4 shadow-sm group-hover:shadow-lg transition-all duration-300 flex items-center justify-center p-4">
-            <div class="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-colors z-10"></div>
-            <img [alt]="product.name" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500 mix-blend-multiply dark:mix-blend-normal rounded-xl" [src]="product.image || 'https://via.placeholder.com/300?text=No+Image'"/>
-            <div class="absolute top-4 right-4 z-20">
-                <button class="h-8 w-8 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm flex items-center justify-center text-slate-400 hover:text-red-500 transition-colors" (click)="$event.stopPropagation()">
-                    <span class="material-symbols-outlined text-[18px]">favorite</span>
-                </button>
-            </div>
-            <!-- Discount Tag -->
-            <div *ngIf="product.originalPrice" class="absolute top-4 left-4 z-20">
-                <span class="px-2 py-1 bg-red-600 text-white text-[10px] font-bold rounded-sm uppercase tracking-wide">Sale</span>
-            </div>
-        </div>
-        <div class="flex flex-col gap-1 px-1">
-            <p class="text-slate-500 text-xs truncate mb-1">{{ product.category }}</p>
-            <h3 class="text-text-primary dark:text-slate-100 font-bold text-base line-clamp-2 mb-2">{{ product.name }}</h3>
-            <div class="flex items-baseline gap-2 mt-auto">
-                <span *ngIf="product.originalPrice" class="text-xs line-through text-slate-400">₹{{ product.originalPrice | number:'1.0-0' }}</span>
-                <span class="text-primary font-bold text-lg">₹{{ product.price | number:'1.0-0' }}</span>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
+<app-trending-products-carousel-section 
+  [products]="featuredProducts" 
+  title="Curated Favorites" 
+  subtitle="On Sale">
+</app-trending-products-carousel-section>
 
 <app-why-choose-us-section [valueProps]="valueProps"></app-why-choose-us-section>
 

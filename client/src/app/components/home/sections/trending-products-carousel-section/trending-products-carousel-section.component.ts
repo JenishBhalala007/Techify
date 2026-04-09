@@ -8,6 +8,8 @@ import { Product } from '../../../../core/services/product.service';
 })
 export class TrendingProductsCarouselSectionComponent {
   @Input() products: Product[] = [];
+  @Input() title: string = 'Trending Products';
+  @Input() subtitle: string = 'Trending Now';
   @ViewChild('slider') sliderRef?: ElementRef<HTMLDivElement>;
 
   private touchStartX = 0;
