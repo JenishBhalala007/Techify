@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const path = require('path');
 const connectDB = require('./config/db');
 
 // Route files
@@ -10,8 +11,15 @@ const orderRoutes = require('./routes/orderRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const homeRoutes = require('./routes/homeRoutes');
 
-// Load env vars
-dotenv.config();
+// Load env vars explicitly from the server folder so the JWT secret is available
+// even when the backend is started from a different working directory.
+dotenv.config({ path: path.resolve(__dirname, '.env') });
+
+if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET is missing. Set it in server/.env before starting the backend.');
+}else {
+    console.log('JWT_SECRET is set.');
+}
 
 // Connect to database
 // Note: You must define MONGO_URI in a .env file located in the /backend folder to successfully connect.

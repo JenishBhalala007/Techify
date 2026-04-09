@@ -1,11 +1,9 @@
 <!-- LOGIN VIEW -->
-<div *ngIf="activeTab === 'login'">
-
-
+<div *ngIf="activeTab === 'login'" class="auth-shell fixed inset-0 bg-[#fdfdfa] dark:bg-background-dark overflow-hidden">
     <!-- Main Content: Split Screen -->
-    <main class="flex-1 flex flex-col lg:flex-row h-screen">
+    <main class="auth-main h-full flex flex-col lg:flex-row overflow-hidden">
         <!-- Left Side: Lifestyle Image -->
-        <div class="hidden lg:block lg:w-5/12 xl:w-1/2 relative bg-primary/10">
+        <div class="auth-left-column hidden lg:block lg:w-5/12 xl:w-1/2 relative bg-primary/10 overflow-hidden">
             <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" data-alt="Minimalist desk setup with natural light and plants" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDm0vZ9FTob86TIneKe6VC5zCjhZsoU4SgQ86CHngDDSDpUsuZdRdPg4HXeRLXH40fVj86HqrGuTGF4u5qLxvmWl6pe8cDjJ4SG67USq5fGOqyISGT53ST17rqF7Y5eluH87gN4VfTiDfSuhSfTn8UzEouUEUCU_a62eNwsy5nB2cR1zr82WzezZ_bi3tlI9tDvQld38pvt78fBKknkdxW5M0we2hQnqwP0MnTIn3bmFg3U-Mi7wgWjKfoC3zxN4K83nlMVDN7Ku3I');">
             </div>
             <!-- Optional subtle overlay -->
@@ -13,209 +11,189 @@
         </div>
 
         <!-- Right Side: Login Form Area -->
-        <div class="flex-1 flex flex-col px-6 py-12 lg:px-16 relative overflow-y-auto bg-[#fdfdfa] dark:bg-background-dark">
+        <div class="auth-right-column auth-scroll-panel flex-1 flex flex-col justify-center px-6 py-10 sm:py-12 lg:px-12 xl:px-16 relative bg-[#fdfdfa] dark:bg-background-dark min-h-0">
             <!-- Decorative background elements -->
             <div class="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[100px] pointer-events-none"></div>
             <div class="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[100px] pointer-events-none"></div>
 
-            <div class="w-full max-w-md m-auto bg-surface dark:bg-surface-dark p-10 md:p-12 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] border border-border dark:border-border-dark relative z-10">
-                <div class="flex flex-col text-center mb-10">
-                    <h1 class="text-3xl md:text-4xl font-bold leading-tight tracking-tight text-text-primary dark:text-white mb-3">
-                        Welcome back
-                    </h1>
-                    <p class="text-text-secondary dark:text-slate-400 text-sm md:text-base">
-                        Log in to your account to continue your Nordic lifestyle journey.
-                    </p>
-                </div>
-
-                <form class="flex flex-col gap-6" [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
-                    <div class="flex flex-col gap-5">
-                        <label class="flex flex-col gap-2">
-                            <span class="text-sm font-semibold text-text-primary dark:text-slate-200">Email</span>
-                            <div class="relative flex items-center">
-                                <span class="material-symbols-outlined absolute left-4 text-text-secondary dark:text-slate-400 text-[20px]">mail</span>
-                                <input formControlName="email" class="form-input w-full rounded-lg border border-border dark:border-border-dark bg-background-light dark:bg-background-dark/50 focus:border-primary focus:ring-1 focus:ring-primary text-text-primary dark:text-white h-14 pl-12 pr-4 text-base placeholder:text-text-secondary/60 transition-colors" [ngClass]="{'border-red-500': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}" placeholder="Enter your email address" required="" type="email"/>
-                            </div>
-                            <span class="text-xs text-red-500 mt-1" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-                                <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</span>
-                                <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email</span>
-                            </span>
-                        </label>
-                        <label class="flex flex-col gap-2">
-                            <div class="flex justify-between items-baseline">
-                                <span class="text-sm font-semibold text-text-primary dark:text-slate-200">Password</span>
-                                <a class="text-xs font-medium text-primary hover:text-primary/80 transition-colors" href="#">Forgot password?</a>
-                            </div>
-                            <div class="relative flex items-center">
-                                <span class="material-symbols-outlined absolute left-4 text-text-secondary dark:text-slate-400 text-[20px]">lock</span>
-                                <input formControlName="password" class="form-input w-full rounded-lg border border-border dark:border-border-dark bg-background-light dark:bg-background-dark/50 focus:border-primary focus:ring-1 focus:ring-primary text-text-primary dark:text-white h-14 pl-12 pr-12 text-base placeholder:text-text-secondary/60 transition-colors" [ngClass]="{'border-red-500': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}" placeholder="Enter your password" required="" [type]="showPassword ? 'text' : 'password'"/>
-                                <button class="absolute right-4 text-text-secondary dark:text-slate-400 hover:text-text-primary dark:hover:text-white transition-colors" type="button" (click)="showPassword = !showPassword">
-                                    <span class="material-symbols-outlined text-[20px]">{{ showPassword ? 'visibility' : 'visibility_off' }}</span>
-                                </button>
-                            </div>
-                            <span class="text-xs text-red-500 mt-1" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-                                Password is required
-                            </span>
-                        </label>
-                    </div>
-
-                    <div class="flex items-center gap-3 py-1">
-                        <input class="rounded border-border dark:border-border-dark text-primary focus:ring-primary bg-background-light dark:bg-background-dark size-4 cursor-pointer" id="remember" type="checkbox"/>
-                        <label class="text-sm text-text-secondary dark:text-slate-400 cursor-pointer select-none" for="remember">Remember me for 30 days</label>
-                    </div>
-
-                    <div class="flex flex-col gap-4 mt-2">
-                        <button class="w-full flex items-center justify-center gap-2 rounded-lg h-14 bg-primary hover:bg-primary/90 text-white text-base font-bold tracking-wide transition-all shadow-sm" type="submit">
-                            Sign In
-                            <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
-                        </button>
-
-                        <div class="relative flex py-2 items-center">
-                            <div class="flex-grow border-t border-border dark:border-border-dark"></div>
-                            <span class="flex-shrink-0 mx-4 text-text-secondary/60 dark:text-slate-500 text-xs uppercase font-medium tracking-wider">Or continue with</span>
-                            <div class="flex-grow border-t border-border dark:border-border-dark"></div>
+            <div class="auth-card-shell w-full mx-auto relative z-10 h-full min-h-0 flex flex-col">
+                <div class="auth-card bg-surface dark:bg-surface-dark rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] border border-border dark:border-border-dark">
+                    <div class="auth-card-body px-6 py-8 sm:px-8 sm:py-10">
+                        <div class="flex flex-col text-center mb-8 sm:mb-10">
+                            <h1 class="text-3xl md:text-4xl font-bold leading-tight tracking-tight text-text-primary dark:text-white mb-3">
+                                Welcome back
+                            </h1>
+                            <p class="text-text-secondary dark:text-slate-400 text-sm md:text-base">
+                                Log in to your account to continue your Nordic lifestyle journey.
+                            </p>
                         </div>
 
-                        <button class="w-full flex items-center justify-center gap-3 rounded-lg h-14 border border-border dark:border-border-dark bg-white dark:bg-transparent hover:bg-background-light dark:hover:bg-background-dark/50 text-text-primary dark:text-white text-base font-semibold transition-colors" type="button">
-                            <svg class="w-5 h-5" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
-                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
-                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
-                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
-                            </svg>
-                            Google
-                        </button>
+                        <form class="flex flex-col gap-5 sm:gap-6" [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+                            <div class="flex flex-col gap-5">
+                                <label class="flex flex-col gap-2">
+                                    <span class="text-sm font-semibold text-text-primary dark:text-slate-200">Email</span>
+                                    <div class="relative flex items-center">
+                                        <span class="material-symbols-outlined absolute left-4 text-text-secondary dark:text-slate-400 text-[20px]">mail</span>
+                                        <input formControlName="email" class="form-input w-full rounded-lg border border-border dark:border-border-dark bg-background-light dark:bg-background-dark/50 focus:border-primary focus:ring-1 focus:ring-primary text-text-primary dark:text-white h-14 pl-12 pr-4 text-base placeholder:text-text-secondary/60 transition-colors" [ngClass]="{'border-red-500': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}" placeholder="Enter your email address" required type="email"/>
+                                    </div>
+                                    <span class="text-xs text-red-500 mt-1" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                                        <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</span>
+                                        <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+                                    </span>
+                                </label>
+
+                                <label class="flex flex-col gap-2">
+                                    <div class="flex justify-between items-baseline gap-4">
+                                        <span class="text-sm font-semibold text-text-primary dark:text-slate-200">Password</span>
+                                        <a class="text-xs font-medium text-primary hover:text-primary/80 transition-colors whitespace-nowrap" href="#">Forgot password?</a>
+                                    </div>
+                                    <div class="relative flex items-center">
+                                        <span class="material-symbols-outlined absolute left-4 text-text-secondary dark:text-slate-400 text-[20px]">lock</span>
+                                        <input formControlName="password" class="form-input w-full rounded-lg border border-border dark:border-border-dark bg-background-light dark:bg-background-dark/50 focus:border-primary focus:ring-1 focus:ring-primary text-text-primary dark:text-white h-14 pl-12 pr-12 text-base placeholder:text-text-secondary/60 transition-colors" [ngClass]="{'border-red-500': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}" placeholder="Enter your password" required [type]="showPassword ? 'text' : 'password'"/>
+                                        <button class="absolute right-4 text-text-secondary dark:text-slate-400 hover:text-text-primary dark:hover:text-white transition-colors" type="button" (click)="showPassword = !showPassword">
+                                            <span class="material-symbols-outlined text-[20px]">{{ showPassword ? 'visibility' : 'visibility_off' }}</span>
+                                        </button>
+                                    </div>
+                                    <span class="text-xs text-red-500 mt-1" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                                        Password is required
+                                    </span>
+                                </label>
+                            </div>
+
+                            <div class="flex items-center gap-3 py-1">
+                                <input class="rounded border-border dark:border-border-dark text-primary focus:ring-primary bg-background-light dark:bg-background-dark size-4 cursor-pointer" id="remember" type="checkbox"/>
+                                <label class="text-sm text-text-secondary dark:text-slate-400 cursor-pointer select-none" for="remember">Remember me for 30 days</label>
+                            </div>
+
+                            <div class="flex flex-col gap-4 mt-1">
+                                <button class="w-full flex items-center justify-center gap-2 rounded-lg h-14 bg-primary hover:bg-primary/90 text-white text-base font-bold tracking-wide transition-all shadow-sm" type="submit">
+                                    Sign In
+                                    <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                                </button>
+                            </div>
+                        </form>
+
+                        <p class="text-center text-sm text-text-secondary dark:text-slate-400 mt-8">
+                            Don't have an account? <a class="font-bold text-text-primary dark:text-white hover:text-primary transition-colors" href="javascript:void(0)" (click)="activeTab = 'register'">Sign up</a>
+                        </p>
                     </div>
-                </form>
+                </div>
 
-                <p class="text-center text-sm text-text-secondary dark:text-slate-400 mt-8">
-                    Don't have an account? <a class="font-bold text-text-primary dark:text-white hover:text-primary transition-colors" href="javascript:void(0)" (click)="activeTab = 'register'">Sign up</a>
-                </p>
-            </div>
-
-            <!-- Mobile Footer Links -->
-            <div class="mt-8 flex gap-6 text-sm text-text-secondary dark:text-slate-500 lg:hidden">
-                <a class="hover:text-text-primary dark:hover:text-white transition-colors" href="#">Privacy Policy</a>
-                <a class="hover:text-text-primary dark:hover:text-white transition-colors" href="#">Terms of Service</a>
+                <!-- Mobile Footer Links -->
+                <div class="mt-6 flex gap-6 text-sm text-text-secondary dark:text-slate-500 lg:hidden justify-center shrink-0">
+                    <a class="hover:text-text-primary dark:hover:text-white transition-colors" href="#">Privacy Policy</a>
+                    <a class="hover:text-text-primary dark:hover:text-white transition-colors" href="#">Terms of Service</a>
+                </div>
             </div>
         </div>
     </main>
 </div>
 
 <!-- REGISTER VIEW -->
-<div *ngIf="activeTab === 'register'" class="flex-1 flex flex-col min-h-screen">
-
-
+<div *ngIf="activeTab === 'register'" class="auth-shell fixed inset-0 bg-[#fdfdfa] dark:bg-background-dark overflow-hidden">
     <!-- Main Content Split -->
-    <main class="flex-1 flex w-full relative">
+    <main class="auth-main h-full flex flex-col lg:flex-row overflow-hidden">
         <!-- Left Side Image -->
-        <div class="hidden lg:block w-1/2 relative bg-slate-900" data-alt="Gaming mouse on dark oak desk" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAANplxXOOvNd_wEmLJViH6Rd7RiUrcf-AP49amTHtOvUgedvcZUbSebhqkoJd-ndSG7hiqC-n_ILleyWeyof4uN9pjLRAbj1O1UT6IMfVL6Wybvrqms9gmsjruFDHFuIwbO4CJ03eKvsNbkO0XYSvKFdq4O30FKorKdC1taPbnidBYnTKqW9NoSFP8HLw1dviqAivRLKRyATG_MiTaKEeJ-dBwYUN8w012Lc9s_L4P6xYJVdf_hvnc1qHqbdzsckiUfuT9Vz32A3Y'); background-size: cover; background-position: center;">
+        <div class="auth-left-column hidden lg:block lg:w-1/2 relative bg-slate-900 overflow-hidden" data-alt="Gaming mouse on dark oak desk" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAANplxXOOvNd_wEmLJViH6Rd7RiUrcf-AP49amTHtOvUgedvcZUbSebhqkoJd-ndSG7hiqC-n_ILleyWeyof4uN9pjLRAbj1O1UT6IMfVL6Wybvrqms9gmsjruFDHFuIwbO4CJ03eKvsNbkO0XYSvKFdq4O30FKorKdC1taPbnidBYnTKqW9NoSFP8HLw1dviqAivRLKRyATG_MiTaKEeJ-dBwYUN8w012Lc9s_L4P6xYJVdf_hvnc1qHqbdzsckiUfuT9Vz32A3Y'); background-size: cover; background-position: center;">
             <!-- Overlay for better text readability if needed -->
             <div class="absolute inset-0 bg-black/20"></div>
         </div>
 
         <!-- Right Side Form -->
-        <div class="w-full lg:w-1/2 p-8 sm:p-12 md:p-16 lg:p-24 bg-background-light dark:bg-background-dark relative overflow-y-auto h-[calc(100vh-73px)] flex flex-col">
-            <div class="w-full max-w-[480px] m-auto flex flex-col gap-8 bg-white dark:bg-slate-900 p-8 sm:p-10 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] border border-slate-100 dark:border-slate-800">
-                <div class="flex flex-col gap-2 text-left">
-                    <h1 class="text-3xl sm:text-4xl font-black leading-tight tracking-[-0.033em] text-slate-900 dark:text-white">
-                        Create account
-                    </h1>
-                    <h2 class="text-slate-500 dark:text-slate-400 text-sm sm:text-base font-normal leading-relaxed">
-                        Join Techify to discover Nordic-inspired tech accessories tailored for your lifestyle.
-                    </h2>
-                </div>
-                <form class="flex flex-col gap-5" [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
-                    <!-- Social Logins -->
-                    <div class="flex gap-4">
-                        <button class="flex-1 flex items-center justify-center gap-2 h-12 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-sm font-medium" type="button">
-                            <svg class="w-5 h-5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path><path d="M1 1h22v22H1z" fill="none"></path></svg>
-                            Google
-                        </button>
-                    </div>
+        <div class="auth-right-column auth-scroll-panel w-full lg:w-1/2 flex flex-col justify-start lg:justify-center px-6 py-8 sm:py-10 lg:px-10 xl:px-16 relative bg-background-light dark:bg-background-dark min-h-0 py-3">
+            <div class="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[100px] pointer-events-none"></div>
+            <div class="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[100px] pointer-events-none"></div>
 
-                    <div class="relative flex py-2 items-center">
-                        <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-                        <span class="flex-shrink-0 mx-4 text-slate-400 dark:text-slate-500 text-sm">or sign up with email</span>
-                        <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-                    </div>
+            <div class="auth-card-shell w-full max-w-[520px] mx-auto relative z-10 h-full min-h-0 flex flex-col py-0 lg:py-4">
+                <div class=" max-h-[100%] bg-white dark:bg-slate-900 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] border border-slate-100 dark:border-slate-800">
+                    <div class="auth-card-body px-6 py-8 sm:px-8 sm:py-10 lg:px-10 bg-white rounded-2xl">
+                        <div class="flex flex-col gap-2 text-left mb-6 sm:mb-8">
+                            <h1 class="text-3xl sm:text-4xl font-black leading-tight tracking-[-0.033em] text-slate-900 dark:text-white">
+                                Create account
+                            </h1>
+                            <h2 class="text-slate-500 dark:text-slate-400 text-sm sm:text-base font-normal leading-relaxed">
+                                Join Techify to discover Nordic-inspired tech accessories tailored for your lifestyle.
+                            </h2>
+                        </div>
+                        <form class="flex flex-col gap-5" [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
+                            <!-- Form Fields -->
+                            <label class="flex flex-col">
+                                <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">Full Name</span>
+                                <input formControlName="name" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" [ngClass]="{'border-red-500': registerForm.get('name')?.invalid && registerForm.get('name')?.touched}" placeholder="Jane Doe" type="text"/>
+                                <span class="text-xs text-red-500 mt-1" *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+                                    Name is required
+                                </span>
+                            </label>
 
-                    <!-- Form Fields -->
-                    <label class="flex flex-col">
-                        <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">Full Name</span>
-                        <input formControlName="name" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" [ngClass]="{'border-red-500': registerForm.get('name')?.invalid && registerForm.get('name')?.touched}" placeholder="Jane Doe" type="text"/>
-                        <span class="text-xs text-red-500 mt-1" *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
-                            Name is required
-                        </span>
-                    </label>
+                            <label class="flex flex-col">
+                                <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">Email Address</span>
+                                <input formControlName="email" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" [ngClass]="{'border-red-500': registerForm.get('email')?.invalid && registerForm.get('email')?.touched}" placeholder="jane@example.com" type="email"/>
+                                <span class="text-xs text-red-500 mt-1" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+                                    <span *ngIf="registerForm.get('email')?.errors?.['required']">Email is required</span>
+                                    <span *ngIf="registerForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+                                </span>
+                            </label>
 
-                    <label class="flex flex-col">
-                        <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">Email Address</span>
-                        <input formControlName="email" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" [ngClass]="{'border-red-500': registerForm.get('email')?.invalid && registerForm.get('email')?.touched}" placeholder="jane@example.com" type="email"/>
-                        <span class="text-xs text-red-500 mt-1" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
-                            <span *ngIf="registerForm.get('email')?.errors?.['required']">Email is required</span>
-                            <span *ngIf="registerForm.get('email')?.errors?.['email']">Please enter a valid email</span>
-                        </span>
-                    </label>
+                            <label class="flex flex-col">
+                                <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">Password</span>
+                                <div class="relative flex items-center">
+                                    <input formControlName="password" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 pr-12 text-base font-normal transition-shadow" [ngClass]="{'border-red-500': registerForm.get('password')?.invalid && registerForm.get('password')?.touched}" placeholder="Create a strong password" [type]="showRegisterPassword ? 'text' : 'password'"/>
+                                    <button class="absolute right-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors" type="button" (click)="showRegisterPassword = !showRegisterPassword">
+                                        <span class="material-symbols-outlined text-[20px]">{{ showRegisterPassword ? 'visibility' : 'visibility_off' }}</span>
+                                    </button>
+                                </div>
+                                <span class="text-xs text-red-500 mt-1" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                                    <span *ngIf="registerForm.get('password')?.errors?.['required']">Password is required</span>
+                                    <span *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</span>
+                                </span>
+                            </label>
 
-                    <label class="flex flex-col">
-                        <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">Password</span>
-                        <div class="relative flex items-center">
-                            <input formControlName="password" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 pr-12 text-base font-normal transition-shadow" [ngClass]="{'border-red-500': registerForm.get('password')?.invalid && registerForm.get('password')?.touched}" placeholder="Create a strong password" [type]="showRegisterPassword ? 'text' : 'password'"/>
-                            <button class="absolute right-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors" type="button" (click)="showRegisterPassword = !showRegisterPassword">
-                                <span class="material-symbols-outlined text-[20px]">{{ showRegisterPassword ? 'visibility' : 'visibility_off' }}</span>
+                            <label class="flex flex-col">
+                                <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">Phone Number (Optional)</span>
+                                <input formControlName="phone" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" placeholder="+1 (555) 000-0000" type="tel"/>
+                            </label>
+
+                            <div formGroupName="address" class="flex flex-col gap-5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                                <span class="text-slate-900 dark:text-white text-base font-semibold">Address Details (Optional)</span>
+
+                                <label class="flex flex-col">
+                                    <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">Street Address</span>
+                                    <input formControlName="street" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" placeholder="123 Main St, Apt 4B" type="text"/>
+                                </label>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <label class="flex flex-col">
+                                        <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">City</span>
+                                        <input formControlName="city" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" placeholder="City" type="text"/>
+                                    </label>
+                                    <label class="flex flex-col">
+                                        <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">State / Province</span>
+                                        <input formControlName="state" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" placeholder="State" type="text"/>
+                                    </label>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <label class="flex flex-col">
+                                        <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">Zip Code</span>
+                                        <input formControlName="zipCode" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" placeholder="12345" type="text"/>
+                                    </label>
+                                    <label class="flex flex-col">
+                                        <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">Country</span>
+                                        <input formControlName="country" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" placeholder="Country" type="text"/>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="mt-2 flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary hover:bg-primary/90 text-white text-base font-bold leading-normal tracking-wide transition-colors shadow-sm">
+                                Create Account
                             </button>
-                        </div>
-                        <span class="text-xs text-red-500 mt-1" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
-                            <span *ngIf="registerForm.get('password')?.errors?.['required']">Password is required</span>
-                            <span *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</span>
-                        </span>
-                    </label>
 
-                    <label class="flex flex-col">
-                        <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">Phone Number (Optional)</span>
-                        <input formControlName="phone" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" placeholder="+1 (555) 000-0000" type="tel"/>
-                    </label>
-
-                    <div formGroupName="address" class="flex flex-col gap-5 pt-2 border-t border-slate-100 dark:border-slate-800">
-                        <span class="text-slate-900 dark:text-white text-base font-semibold">Address Details (Optional)</span>
-                        
-                        <label class="flex flex-col">
-                            <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">Street Address</span>
-                            <input formControlName="street" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" placeholder="123 Main St, Apt 4B" type="text"/>
-                        </label>
-
-                        <div class="grid grid-cols-2 gap-4">
-                            <label class="flex flex-col">
-                                <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">City</span>
-                                <input formControlName="city" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" placeholder="City" type="text"/>
-                            </label>
-                            <label class="flex flex-col">
-                                <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">State / Province</span>
-                                <input formControlName="state" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" placeholder="State" type="text"/>
-                            </label>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-4">
-                            <label class="flex flex-col">
-                                <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">Zip Code</span>
-                                <input formControlName="zipCode" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" placeholder="12345" type="text"/>
-                            </label>
-                            <label class="flex flex-col">
-                                <span class="text-slate-700 dark:text-slate-300 text-sm font-medium leading-normal pb-1.5">Country</span>
-                                <input formControlName="country" class="form-input w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-background-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 placeholder:text-slate-400 text-slate-900 dark:text-white px-4 text-base font-normal transition-shadow" placeholder="Country" type="text"/>
-                            </label>
-                        </div>
+                            <p class="text-center text-sm text-slate-500 dark:text-slate-400 mt-4">
+                                Already have an account? <a href="javascript:void(0)" (click)="activeTab = 'login'" class="text-primary font-semibold hover:underline">Log in</a>
+                            </p>
+                        </form>
                     </div>
-
-                    <button type="submit" class="mt-4 flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary hover:bg-primary/90 text-white text-base font-bold leading-normal tracking-wide transition-colors shadow-sm">
-                        Create Account
-                    </button>
-
-                    <p class="text-center text-sm text-slate-500 dark:text-slate-400 mt-4">
-                        Already have an account? <a href="javascript:void(0)" (click)="activeTab = 'login'" class="text-primary font-semibold hover:underline">Log in</a>
-                    </p>
-                </form>
+                </div>
             </div>
         </div>
     </main>
