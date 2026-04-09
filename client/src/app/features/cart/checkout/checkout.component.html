@@ -1,13 +1,12 @@
 
-
 <!-- Main Layout -->
-<div class="flex flex-col lg:flex-row gap-12 lg:gap-20" *ngIf="currentStep < 4">
+<div class="checkout-layout flex flex-col lg:flex-row gap-8 lg:gap-14" *ngIf="currentStep < 4">
 
   <!-- ═══════════════════════════════════════
        LEFT COLUMN – Forms
   ════════════════════════════════════════ -->
-  <div class="flex-1 space-y-8">
-    <div class="bg-white rounded-2xl p-8 lg:p-10 shadow-soft">
+  <div class="checkout-main-column flex-1 space-y-8">
+    <div class="checkout-form-card bg-white rounded-2xl p-5 sm:p-7 lg:p-10 shadow-soft">
 
       <!-- ─── Step 1: Shipping ─── -->
       <form *ngIf="currentStep === 1" [formGroup]="addressForm" (ngSubmit)="goToPayment()">
@@ -271,14 +270,14 @@
   <!-- ═══════════════════════════════════════
        RIGHT COLUMN – Order Summary
   ════════════════════════════════════════ -->
-  <div class="w-full lg:w-[420px] flex-shrink-0">
-    <div class="bg-white rounded-2xl p-8 shadow-soft sticky top-32 border border-slate-blue/5">
+  <div class="checkout-summary-column w-full lg:w-[420px] xl:w-[440px] flex-shrink-0">
+    <div class="checkout-summary-card bg-white rounded-2xl p-5 sm:p-6 lg:p-8 shadow-soft sticky top-32 border border-slate-blue/5">
       <h3 class="text-xl font-medium mb-6 text-slate-blue">Order Summary</h3>
 
       <!-- Items -->
-      <div class="space-y-5 mb-8 max-h-[300px] overflow-y-auto pr-1">
-        <div class="flex gap-4 items-center" *ngFor="let item of cartItems">
-          <div class="relative w-16 h-16 rounded-lg bg-[#E8E6E1] overflow-hidden flex-shrink-0">
+      <div class="checkout-summary-items space-y-4 mb-8 max-h-[320px] overflow-y-auto pr-1">
+        <div class="checkout-summary-item flex gap-3 sm:gap-4 items-start" *ngFor="let item of cartItems">
+          <div class="checkout-summary-thumb relative w-16 h-16 rounded-lg bg-[#E8E6E1] overflow-hidden flex-shrink-0">
             <img [src]="item.product.image || 'assets/images/placeholder.jpg'"
               [alt]="item.product.name"
               class="w-full h-full object-cover mix-blend-multiply opacity-90" />
@@ -286,11 +285,11 @@
               {{item.quantity}}
             </span>
           </div>
-          <div class="flex-1">
-            <h4 class="text-[15px] font-medium text-slate-blue truncate">{{item.product.name}}</h4>
-            <p class="text-[13px] text-slate-blue/60">Qty: {{item.quantity}}</p>
+          <div class="checkout-summary-meta flex-1 min-w-0">
+            <h4 class="checkout-summary-title text-[15px] font-medium text-slate-blue">{{item.product.name}}</h4>
+            <p class="text-[13px] text-slate-blue/60 mt-0.5">Qty: {{item.quantity}}</p>
           </div>
-          <p class="text-[15px] font-medium flex-shrink-0">₹{{(item.product.price * item.quantity).toFixed(2)}}</p>
+          <p class="checkout-summary-price text-[15px] font-medium flex-shrink-0 whitespace-nowrap">₹{{(item.product.price * item.quantity).toFixed(2)}}</p>
         </div>
       </div>
 
