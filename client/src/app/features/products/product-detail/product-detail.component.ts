@@ -179,7 +179,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     // Map common variations to standard names
     if (lower === 'keyboard' || lower === 'keyboards') return 'Keyboards';
     if (lower === 'mouse' || lower === 'mice') return 'Mice';
-    if (lower === 'audio' || lower === 'headset' || lower === 'headsets') return 'Audio';
+    if (lower === 'audio') return 'Audio';
+    if (lower === 'headset' || lower === 'headsets') return 'Headsets';
     if (lower === 'monitor' || lower === 'monitors') return 'Monitors';
     
     // Return sentence case for other categories

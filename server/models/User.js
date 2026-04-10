@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please add a password'],
         minlength: 6,
+        match: [
+            /^(?=.*[a-zA-Z])(?=.*\d).+$/,
+            'Password must contain at least one letter and one number'
+        ],
         select: false
     },
     role: {

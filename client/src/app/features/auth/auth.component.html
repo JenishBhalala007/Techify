@@ -142,9 +142,10 @@
                                         <span class="material-symbols-outlined text-[20px]">{{ showRegisterPassword ? 'visibility' : 'visibility_off' }}</span>
                                     </button>
                                 </div>
-                                <span class="text-xs text-red-500 mt-1" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                                <span class="text-xs text-red-500 mt-1 flex flex-col" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
                                     <span *ngIf="registerForm.get('password')?.errors?.['required']">Password is required</span>
                                     <span *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</span>
+                                    <span *ngIf="registerForm.get('password')?.errors?.['pattern']">Password must contain at least one letter and one number</span>
                                 </span>
                             </label>
 

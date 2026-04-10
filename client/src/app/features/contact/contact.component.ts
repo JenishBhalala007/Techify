@@ -1,22 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css']
 })
-export class ContactComponent {
+export class ContactComponent implements OnInit {
   contactForm: FormGroup;
   submitting = false;
+  isLoggedIn = false;
+  currentUser: any = null;
   toast: { show: boolean; type: 'success' | 'error'; message: string } = {
     show: false,
     type: 'success',
     message: ''
   };
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
+  constructor(private fb: FormBuilder, private http: HttpClient, private authService: AuthService) {
     this.contactForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -26,6 +29,19 @@ export class ContactComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.isLoggedIn = this.authService.isLoggedIn();
+    if (this.isLoggedIn) {
+      this.currentUser = this.authService.getCurrentUser();
+      this.contactForm.patchValue({
+        name: this.currentUser?.name || '',
+        email: this.currentUser?.email || ''
+      });
+      // Disable email field so user cannot change it
+      this.contactForm.get('email')?.disable();
+    }
+  }
+
   onSubmit(): void {
     if (this.contactForm.invalid) {
       this.contactForm.markAllAsTouched();
@@ -33,7 +49,8 @@ export class ContactComponent {
     }
 
     this.submitting = true;
-    this.http.post('http://localhost:5000/api/contact', this.contactForm.value).subscribe({
+    const formData = this.contactForm.getRawValue();
+    this.http.post('http://localhost:5000/api/contact', formData).subscribe({
       next: () => {
         this.submitting = false;
         this.contactForm.reset({ subject: 'General Inquiry' });
